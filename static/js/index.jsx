@@ -1,10 +1,4 @@
-import React from 'react'
-import ReactDOM from 'react-dom'
-
-export default class Index extends Component {
-    render () {
-        return (
-                "Hello gays"
-        )
-    }
-}
+import React from 'react';
+import ReactDOM from 'react-dom';
+import routes from "./routes";
+ReactDOM.render(routes, document.getElementById("content"));
