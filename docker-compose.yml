@@ -21,3 +21,4 @@ services:
       MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
     ports:
       - "33061:3306"
+    build: ./db
