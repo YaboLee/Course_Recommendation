@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import axios from "axios"
+import Form from 'react-bootstrap/Form'
+import Button from 'react-bootstrap/Button'
+
 
 export default class RegisterForm extends Component {
     constructor(props) {
@@ -37,23 +40,26 @@ export default class RegisterForm extends Component {
     render() {
        return (
         <div>
-            <form>
-                <label>
-                    Name:
-                    <input type="text" name='username' value={this.state.value} onChange={this.handleChange} />
-                </label>
-                <label>
-                    Password:
-                    <input type="text" name='password' value={this.state.value} onChange={this.handleChange} />
-                </label>
-                <label>
-                    email:
-                    <input type="text" name='email' value={this.state.value} onChange={this.handleChange} />
-                </label>
-            </form>
-            <button onClick={() => this.handleSubmit()}>
-                Click Me!
-            </button>
+            <Form>
+                <Form.Group controlId="formBasicUsername">
+                    <Form.Label>Username</Form.Label>
+                    <Form.Control type="text" placeholder="username" name="username" onChange={this.handleChange} />
+                </Form.Group>
+
+                <Form.Group controlId="formBasicEmail">
+                    <Form.Label>Email address</Form.Label>
+                    <Form.Control type="email" placeholder="Enter email" name="email" onChange={this.handleChange} />
+                </Form.Group>
+
+                <Form.Group controlId="formBasicPassword">
+                    <Form.Label>Password</Form.Label>
+                    <Form.Control type="password" placeholder="Password" name="password" onChange={this.handleChange} />
+                </Form.Group>
+
+                <Button variant="primary" onClick={() => this.handleSubmit()}>
+                    Submit
+                </Button>
+            </Form>
         </div>
         )
     }
