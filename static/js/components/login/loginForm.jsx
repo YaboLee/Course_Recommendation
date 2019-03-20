@@ -24,7 +24,7 @@ export default class LoginForm extends Component {
     }
 
     handleSubmit() {
-        axios.post('/register', {
+        axios.post('auth/login', {
             username: this.state.username,
             password: this.state.password,
             email: this.state.email
