@@ -11,7 +11,7 @@ export default class LoginForm extends Component {
         this.state = {
             username: "",
             password: "",
-            email: ""
+            // email: ""
         }
     }
 
@@ -27,7 +27,7 @@ export default class LoginForm extends Component {
         axios.post('auth/login', {
             username: this.state.username,
             password: this.state.password,
-            email: this.state.email
+            // email: this.state.email
           })
           .then(function (response) {
             console.log(response);
@@ -46,10 +46,10 @@ export default class LoginForm extends Component {
                     <Form.Control type="text" placeholder="username" name="username" onChange={this.handleChange} />
                 </Form.Group>
 
-                <Form.Group controlId="formBasicEmail">
+                {/* <Form.Group controlId="formBasicEmail">
                     <Form.Label>Email address</Form.Label>
                     <Form.Control type="email" placeholder="Enter email" name="email" onChange={this.handleChange} />
-                </Form.Group>
+                </Form.Group> */}
 
                 <Form.Group controlId="formBasicPassword">
                     <Form.Label>Password</Form.Label>
