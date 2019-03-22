@@ -12,5 +12,5 @@ config = {
 def get_db():
     global config
     if 'db' not in g:
-        g.db =MySQLdb.connect(**config)
+        g.db =MySQLdb.connect(host='127.0.0.1',port=33061,user='test',password='test',db = 'test')
     return g.db
