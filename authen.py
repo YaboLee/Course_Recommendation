@@ -28,6 +28,7 @@ def register():
           else:
               cursor.execute('INSERT INTO USERS (username,userpassword,email) VALUES ( "'+username+'" , "'+generate_password_hash(password)+'" , "'+email+'" );')
               db.commit()
+              return '{"":""}'
           flash(error)
       return render_template('register.html')
 @bp.route('/login',methods = ('GET','POST'))
@@ -49,7 +50,7 @@ def login():
         if error is None:
             session.clear()
             print('login successful!')
-            return 'Login successful!'
+            return '{"":""}'
             # return redirect(url_for('/'))
         print(error)
     return render_template('login.html')
