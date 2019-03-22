@@ -33,26 +33,25 @@ def register():
 @bp.route('/login',methods = ('GET','POST'))
 def login():
     if request.method == 'POST':
-        # username = request.form['username']
-        # password = request.form['password']
-        # db = get_db()
-        # error = None
-        # user = db.execute(
-        #     'SELECT * FROM user WHERE username = ?', (username,)
-        # ).fetchone()
-
-        # if user is None:
-        #     error = 'Incorrect username'
-        # elif not check_password_hash(user['password'],password):
-        #     error = 'Incorrect password'
-
-        # if error is None:
-        #     session.clear()
-        #     session['user_id'] = user['id']
-        #     return redirect(url_for('index'))
-        
-        # flash(error)
         print(request.data)
+        info = json.loads(request.data)
+        username = info['username']
+        password = info['password']
+        db = get_db()
+        cursor = db.cursor()
+        cursor.execute('SELECT * FROM USERS WHERE username = "'+username+'";')
+        user = cursor.fetchone()
+        error = None
+        if user is None:
+            error = 'Please enter valid username'
+        elif not check_password_hash(user[1],password):
+            error = 'Incorrect password'
+        if error is None:
+            session.clear()
+            print('login successful!')
+            return 'Login successful!'
+            # return redirect(url_for('/'))
+        print(error)
     return render_template('login.html')
 # @bp.before_app_request
 # def load_logged_in_user():
