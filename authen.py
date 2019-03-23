@@ -50,7 +50,7 @@ def login():
         if error is None:
             session.clear()
             print('login successful!')
-            return redirect('/')
+            return redirect(url_for('main.hello'))
             # return redirect(url_for('/'))
         print(error)
     return render_template('login.html')
