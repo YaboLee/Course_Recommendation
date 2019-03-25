@@ -23,13 +23,15 @@ def register():
               error = 'Password is required!'
           elif not email:
               error = 'Email is required!'
-          elif cursor.execute('SELECT * FROM USERS WHERE username = "'+username+'";'):
-              return "User already exists!"
           else:
-              cursor.execute('INSERT INTO USERS (username,userpassword,email) VALUES ( "'+username+'" , "'+generate_password_hash(password)+'" , "'+email+'" );')
-              db.commit()
-              return render_template('index.html')
-          flash(error)
+              cursor.execute('SELECT * FROM USERS WHERE username = "'+username+'";')
+              if cursor.fetchone():
+                  return 'User already exists'
+              else:
+                  cursor.execute('INSERT INTO USERS (username,userpassword,email) VALUES ( "'+username+'" , "'+generate_password_hash(password)+'" , "'+email+'" );')
+                  db.commit()
+                  return render_template('login.html')
+        #   flash(error)
       return render_template('register.html')
 @bp.route('/login',methods = ('GET','POST'))
 def login():
@@ -50,7 +52,7 @@ def login():
         if error is None:
             session.clear()
             print('login successful!')
-            return redirect(url_for('main.hello'))
+            return redirect(url_for('index'))
             # return redirect(url_for('/'))
         print(error)
     return render_template('login.html')
