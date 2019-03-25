@@ -13,5 +13,4 @@ RUN pip install --no-cache-dir -r requirements.txt
 ENV FLASK_ENV="Development"
 ENV FLASK_APP="main.py"
 
-# CMD ["flask", "run"]
 CMD ["python", "main.py"]
