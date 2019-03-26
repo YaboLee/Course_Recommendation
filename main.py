@@ -16,7 +16,7 @@ def hello():
     # cursor = db.cursor()
     # cursor.execute("SELECT * FROM Courses2")
     # data = cursor.fetchall()
-    return render_template('index')
+    return render_template('index.html')
 
 # @app.route("/register", methods=('GET', 'POST'))
 # def register():
