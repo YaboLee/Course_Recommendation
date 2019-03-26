@@ -24,7 +24,7 @@ export default class RegisterForm extends Component {
     }
 
     handleSubmit() {
-        axios.post('/register', {
+        axios.post('/auth/register', {
             username: this.state.username,
             password: this.state.password,
             email: this.state.email

@@ -11,8 +11,8 @@ export default (
     <Router>
      <div>
       <Route exact path='/' component={Home} />
-      <Route exact path='/register' component={Register} />
-      <Route exact path='/login' component={Login} />
+      <Route exact path='/auth/register' component={Register} />
+      <Route exact path='/auth/login' component={Login} />
      </div>
     </Router>
 );

@@ -1,18 +1,24 @@
 import React, { Component } from 'react';
+import {
+    withRouter
+  } from 'react-router-dom';
+
 import axios from "axios"
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
 
 
-export default class LoginForm extends Component {
+class LoginForm extends Component {
     constructor(props) {
         super(props);
         this.handleChange = this.handleChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
         this.state = {
             username: "",
             password: "",
-            email: ""
+            // email: ""
         }
+        // this.history = this.props.history;
     }
 
     handleChange(event) {
@@ -24,12 +30,14 @@ export default class LoginForm extends Component {
     }
 
     handleSubmit() {
-        axios.post('/register', {
+        var self = this;
+        axios.post('/auth/login', {
             username: this.state.username,
             password: this.state.password,
-            email: this.state.email
+            // email: this.state.email
           })
           .then(function (response) {
+            self.props.history.push("/");
             console.log(response);
           })
           .catch(function (error) {
@@ -46,17 +54,17 @@ export default class LoginForm extends Component {
                     <Form.Control type="text" placeholder="username" name="username" onChange={this.handleChange} />
                 </Form.Group>
 
-                <Form.Group controlId="formBasicEmail">
+                {/* <Form.Group controlId="formBasicEmail">
                     <Form.Label>Email address</Form.Label>
                     <Form.Control type="email" placeholder="Enter email" name="email" onChange={this.handleChange} />
-                </Form.Group>
+                </Form.Group> */}
 
                 <Form.Group controlId="formBasicPassword">
                     <Form.Label>Password</Form.Label>
                     <Form.Control type="password" placeholder="Password" name="password" onChange={this.handleChange} />
                 </Form.Group>
 
-                <Button variant="primary" onClick={() => this.handleSubmit()}>
+                <Button variant="primary" onClick={this.handleSubmit}>
                     Login
                 </Button>
             </Form>
@@ -64,3 +72,5 @@ export default class LoginForm extends Component {
         )
     }
 }
+
+export default withRouter(LoginForm)
