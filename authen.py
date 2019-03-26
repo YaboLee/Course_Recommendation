@@ -30,7 +30,7 @@ def register():
               else:
                   cursor.execute('INSERT INTO USERS (username,userpassword,email) VALUES ( "'+username+'" , "'+generate_password_hash(password)+'" , "'+email+'" );')
                   db.commit()
-                  return render_template('login.html')
+                  return redirect(url_for('auth.login'))
         #   flash(error)
       return render_template('register.html')
 @bp.route('/login',methods = ('GET','POST'))
@@ -51,21 +51,19 @@ def login():
             error = 'Incorrect password'
         if error is None:
             session.clear()
+            session['username'] = username
             print('login successful!')
-            return redirect(url_for('index'))
+            return redirect(url_for('hello'))
             # return redirect(url_for('/'))
         print(error)
     return render_template('login.html')
-# @bp.before_app_request
-# def load_logged_in_user():
-#     user_id = session.get('user_id')
-
-#     if user_id is None:
-#         g.user = None
-#     else:
-#         g.user = get_db().execute(
-#             'SELECT * FROM user WHERE id = ?', (user_id,)
-#         ).fetchone()
+@bp.before_app_request
+def load_logged_in_user():
+    username = session.get('username')
+    if username is None:
+        g.username = None
+    else:
+        g.username = username
 
 # @bp.route('/logout')
 # def logout():

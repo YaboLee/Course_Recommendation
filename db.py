@@ -1,7 +1,6 @@
-import MySQLdb
+import mysql.connector as MySQLdb
 from flask import current_app, g
 from flask.cli import with_appcontext
-import MySQLdb
 config = {
         'user': 'test',
         'password': 'test',
