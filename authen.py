@@ -23,6 +23,7 @@ def register():
               error = 'Password is required!'
           elif not email:
               error = 'Email is required!'
+<<<<<<< HEAD
           elif cursor.execute('SELECT * FROM USERS WHERE username = "'+username+'";'):
               return "User already exists!"
           else:
@@ -30,6 +31,17 @@ def register():
               db.commit()
               return render_template('index.html')
           flash(error)
+=======
+          else:
+              cursor.execute('SELECT * FROM USERS WHERE username = "'+username+'";')
+              if cursor.fetchone():
+                  return 'User already exists'
+              else:
+                  cursor.execute('INSERT INTO USERS (username,userpassword,email) VALUES ( "'+username+'" , "'+generate_password_hash(password)+'" , "'+email+'" );')
+                  db.commit()
+                  return redirect(url_for('auth.login'))
+        #   flash(error)
+>>>>>>> 5914bf983a2409f124d5643615eab3d85e334886
       return render_template('register.html')
 @bp.route('/login',methods = ('GET','POST'))
 def login():
@@ -49,6 +61,7 @@ def login():
             error = 'Incorrect password'
         if error is None:
             session.clear()
+<<<<<<< HEAD
             print('login successful!')
             return redirect(url_for('main.hello'))
             # return redirect(url_for('/'))
@@ -64,6 +77,21 @@ def login():
 #         g.user = get_db().execute(
 #             'SELECT * FROM user WHERE id = ?', (user_id,)
 #         ).fetchone()
+=======
+            session['username'] = username
+            print('login successful!')
+            return redirect(url_for('hello'))
+            # return redirect(url_for('/'))
+        print(error)
+    return render_template('login.html')
+@bp.before_app_request
+def load_logged_in_user():
+    username = session.get('username')
+    if username is None:
+        g.username = None
+    else:
+        g.username = username
+>>>>>>> 5914bf983a2409f124d5643615eab3d85e334886
 
 # @bp.route('/logout')
 # def logout():
