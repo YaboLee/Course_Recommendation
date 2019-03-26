@@ -7,9 +7,19 @@
     <title>Creating a Full-Stack Python Application with NPM, React.js and Webpack</title>
   </head>
   <body>
+      {% block header %}
+      <h1>{% block username %}Posts{% endblock %}</h1>
+    {% endblock %}
+    {% for item in data %}
+    <tr>
+        <td>{{item[0]}}</td>
+        <td>{{item[1]}}</td>
+        ...
+    </tr>
+    {% endfor %}
     <div id="content">
       
     </div>
-    <script src="static/dist/bundle.js" type="text/javascript"></script>
+    <script src="../static/dist/bundle.js" type="text/javascript"></script>
   </body>
 </html>
