@@ -1,19 +1,17 @@
 import React, { Component } from 'react';
+import Course from "./course/course"
+import "../../css/home/info.css"
+
 export default class Home extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            msg: "hello"
-        }
-    }
-    handleClick(props) {
-        alert(props.msg);
     }
     render() {
        return (
-        <button props={this.state.msg} onClick={(msg) => this.handleClick(msg)}>
-            Click Me!
-        </button>
+        <div>
+            <p className="info">aaa</p>
+            <Course className="course"></Course>
+        </div>
         )
     }
 }
