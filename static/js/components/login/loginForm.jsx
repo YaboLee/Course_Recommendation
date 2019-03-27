@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import {
     withRouter
-  } from 'react-router-dom';
+} from 'react-router-dom';
 
 import axios from "axios"
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
 
 
-class LoginForm extends Component {
+export default class LoginForm extends Component {
     constructor(props) {
         super(props);
         this.handleChange = this.handleChange.bind(this);

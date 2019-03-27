@@ -19,7 +19,7 @@ export default class Course extends Component {
 
     searchCourse() {
         var self = this;
-        axios.get('/api/searchCourse')
+        axios.get('/api/searchCourse?courseSubject=CS&courseNumber=241')
             .then(function (response) {
                 // handle success
                 self.setState({
