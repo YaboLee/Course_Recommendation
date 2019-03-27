@@ -64,7 +64,13 @@ def load_logged_in_user():
         g.username = None
     else:
         g.username = username
-
+def login_required(view):
+    @functools.wraps(view)
+    def wrapped_view(**kwargs):
+        if g.username is None:
+            return redirect(url_for('auth.login'))
+        return view(**kwargs)
+    return wrapped_view
 # @bp.route('/logout')
 # def logout():
 #     session.clear()
