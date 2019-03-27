@@ -1,13 +1,5 @@
 version: '3'
 services:
-  web:
-    container_name: web
-    build: .
-    restart: always
-    links:
-      - db
-    ports:
-      - "5000:5000"
   db:
     image: mysql
     container_name: db
@@ -23,11 +15,3 @@ services:
       MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
     ports:
       - "33061:3306"
-  insert:
-    container_name: insert
-    restart: always
-    build: ./insert
-    depends_on:
-      - db
-    links:
-      - db
