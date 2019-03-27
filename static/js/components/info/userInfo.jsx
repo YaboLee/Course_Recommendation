@@ -1,15 +1,12 @@
 import React, { Component } from 'react';
-import UserInfo from "./userInfo"
 
 import "../../../css/home/home.css"
 
-
-export default class Info extends Component {
+export default class UserInfo extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            userInfo: props.userInfo,
-            coursePlans: null,
+            userInfo: props.userInfo
         }
     }
 
@@ -20,11 +17,9 @@ export default class Info extends Component {
     }
 
     render() {
-        return (
-            <UserInfo 
-                userInfo={this.state.userInfo} 
-                className="userInfo">
-            </UserInfo>
+       return (
+            <p className={this.props.className}>{this.state.userInfo.userName}</p>
+            // {/* <p>test</p> */}
         )
     }
 }

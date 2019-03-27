@@ -1,0 +1,16 @@
+.homeBox {
+    display: flex;
+}
+
+.info {
+    width: 20%;
+    color: blue;
+}
+
+.userInfo {
+    width: 200px;
+}
+
+.course {
+    width: 80%;
+}

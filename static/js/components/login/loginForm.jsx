@@ -16,9 +16,7 @@ class LoginForm extends Component {
         this.state = {
             username: "",
             password: "",
-            // email: ""
         }
-        // this.history = this.props.history;
     }
 
     handleChange(event) {
@@ -34,7 +32,6 @@ class LoginForm extends Component {
         axios.post('/auth/login', {
             username: this.state.username,
             password: this.state.password,
-            // email: this.state.email
           })
           .then(function (response) {
             self.props.history.push("/");
@@ -53,12 +50,6 @@ class LoginForm extends Component {
                     <Form.Label>Username</Form.Label>
                     <Form.Control type="text" placeholder="username" name="username" onChange={this.handleChange} />
                 </Form.Group>
-
-                {/* <Form.Group controlId="formBasicEmail">
-                    <Form.Label>Email address</Form.Label>
-                    <Form.Control type="email" placeholder="Enter email" name="email" onChange={this.handleChange} />
-                </Form.Group> */}
-
                 <Form.Group controlId="formBasicPassword">
                     <Form.Label>Password</Form.Label>
                     <Form.Control type="password" placeholder="Password" name="password" onChange={this.handleChange} />
@@ -72,5 +63,3 @@ class LoginForm extends Component {
         )
     }
 }
-
-export default withRouter(LoginForm)
