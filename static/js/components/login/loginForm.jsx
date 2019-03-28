@@ -16,6 +16,7 @@ export default class LoginForm extends Component {
         this.state = {
             username: "",
             password: "",
+            userinfo: {},
         }
     }
 
@@ -35,11 +36,26 @@ export default class LoginForm extends Component {
           })
           .then(function (response) {
             self.props.history.push("/");
-            console.log(response);
+            // console.log(response);
+            axios.get("/api/userCourse")
+            .then(res => {
+              const temp = res.data;
+              console.log("data is ", temp);
+              this.setState({ userinfo: temp });
+            }).catch(function (error) {
+                console.log(error);
+            });
           })
           .catch(function (error) {
             console.log(error);
           });
+
+        console.log("userinfo is ", this.state.userinfo)
+          
+    }
+
+    componentDidMount() {
+
     }
 
     render() {

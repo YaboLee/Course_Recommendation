@@ -17,7 +17,7 @@
 
 .Navbar {
   border: 2px solid red;
-  height: 100px;
+  height: auto;
 }
 .my-row {
   border: 2px solid red;
@@ -25,4 +25,7 @@
 }
 .my-col {
   border: 2px dotted black;
+}
+.nav {
+  color: silver
 }

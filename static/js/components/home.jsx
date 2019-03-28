@@ -5,7 +5,7 @@ import Course from "./course/course";
 import Info from "./info/info";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../../css/home/home.css";
-import Navbar from "../components/Navbar/navbar.jsx";
+import Navbar2 from "../components/Navbar/navbar.jsx";
 
 export default class Home extends Component {
   constructor(props) {
@@ -48,9 +48,9 @@ export default class Home extends Component {
     return (
       <div className="container">
         <div className="row Navbar">
-          {/* <Info userInfo={this.state.userInfo} className="info" />{" "}
-          <Course className="course" />{" "} */}
-          <Navbar />
+          <Info userInfo={this.state.userInfo} className="info" />{" "}
+          {/* <Course className="course" />{" "} */}
+          <Navbar2 />
         </div>
         <div className="row my-row">
           <div className="col-md-4 my-col">row 1 col 1</div>
