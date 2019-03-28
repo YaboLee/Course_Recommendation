@@ -54,7 +54,7 @@ export default class Home extends Component {
         </div>
         <div className="row my-row">
           <div className="col-md-4 my-col">row 1 col 1</div>
-          <div className="col-md-6 my-col">row 1 col 2</div>
+          <div className="col-md-6 my-col"><Course className="course" /></div>
           <div className="col-md-2 my-col">row 1 col 3</div>
         </div>
       </div>
