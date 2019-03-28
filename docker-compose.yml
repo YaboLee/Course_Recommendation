@@ -18,3 +18,7 @@ services:
   insert:
     build: ./insert/
     restart: always
+    depends_on:
+      - db
+    links: 
+      - db
