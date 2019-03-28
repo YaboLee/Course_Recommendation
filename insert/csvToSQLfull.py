@@ -2,19 +2,28 @@ import csv
 import mysql.connector as MySQLdb
 import os
 import re
+from werkzeug.security import check_password_hash, generate_password_hash
 # import pandas
-mydb = MySQLdb.connect(host='127.0.0.1',
-    port=33061,
+mydb = MySQLdb.connect(host='db',
+    port=3306,
     user='test',
     passwd='test',
-    db='test')
+    db='test',
+    auth_plugin='mysql_native_password')
 if not os.path.exists("datasets"):
     os.system('git clone https://github.com/wadefagen/datasets.git')
-os.system('mysql --host=127.0.0.1 --port=33061 -u test -ptest < schemafull.sql')
-os.system('mysql --host=127.0.0.1 --port=33061 -u test -ptest < userschema.sql')
+os.system('mysql --host=db --port=3306 -u test -ptest < schemafull.sql')
+os.system('mysql --host=db --port=3306 -u test -ptest < userschema.sql')
 csv_file = open('datasets/gpa/uiuc-gpa-dataset.csv',encoding='utf8',errors='ignore')
 csv_data = csv.reader(csv_file)
 cursor = mydb.cursor()
+username = 'test'
+password = 'test'
+email = 'xinhang2.illinois.edu'
+cursor.execute('INSERT INTO USERS (username,userpassword,email) VALUES ( "'+username+'" , "'+generate_password_hash(password)+'" , "'+email+'" );')
+cursor.execute('INSERT INTO USERCOURSES (username,coursenumber,coursetitle,instructor) VALUES("test",241,"CS","Angrave, Lawrence C");')
+cursor.execute('INSERT INTO USERCOURSES (username,coursenumber,coursetitle,instructor) VALUES("test",225,"CS","Fagen-Ulmschnei, Wade A");')
+mydb.commit()
 regint = re.compile('^[-+]?[0-9.]+$')
 # print(csv_data)
 j = 0
