@@ -8,7 +8,8 @@ mydb = MySQLdb.connect(host='127.0.0.1',
     port=33061,
     user='test',
     passwd='test',
-    db='test')
+    db='test',
+    auth_plugin='mysql_native_password')
 if not os.path.exists("datasets"):
     os.system('git clone https://github.com/wadefagen/datasets.git')
 os.system('mysql --host=127.0.0.1 --port=33061 -u test -ptest < schemafull.sql')
