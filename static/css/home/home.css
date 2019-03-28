@@ -1,16 +1,28 @@
 .homeBox {
-    display: flex;
+  display: flex;
 }
 
 .info {
-    width: 20%;
-    color: blue;
+  width: 20%;
+  color: blue;
 }
 
 .userInfo {
-    width: 200px;
+  width: 200px;
 }
 
 .course {
-    width: 80%;
+  width: 80%;
+}
+
+.Navbar {
+  border: 2px solid red;
+  height: 100px;
+}
+.my-row {
+  border: 2px solid red;
+  height: 800px;
+}
+.my-col {
+  border: 2px dotted black;
 }
