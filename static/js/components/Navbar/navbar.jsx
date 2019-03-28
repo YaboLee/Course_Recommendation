@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import {
-  NavBar,
+  Navbar,
   Nav,
   NavItem,
   Form,

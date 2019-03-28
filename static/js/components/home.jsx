@@ -48,8 +48,9 @@ export default class Home extends Component {
     return (
       <div className="container">
         <div className="row Navbar">
-          <Info userInfo={this.state.userInfo} className="info" />{" "}
-          <Course className="course" />{" "}
+          {/* <Info userInfo={this.state.userInfo} className="info" />{" "}
+          <Course className="course" />{" "} */}
+          <Navbar />
         </div>
         <div className="row my-row">
           <div className="col-md-4 my-col">row 1 col 1</div>
