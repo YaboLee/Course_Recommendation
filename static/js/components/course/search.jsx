@@ -8,6 +8,7 @@ export default class Search extends Component {
     constructor(props) {
         super(props);
     }
+
     render() {
        return (
         <InputGroup className="mb-3">
@@ -16,6 +17,8 @@ export default class Search extends Component {
                 aria-label="Recipient's username"
                 aria-describedby="basic-addon2"
                 id="searchCourseInput"
+                name="searchCourseName"
+                onChange={this.props.handleChange}
             />
             <InputGroup.Append>
                 <Button variant="outline-secondary" id="searchCourseBtn" onClick={this.props.searchAPI}>Search</Button>

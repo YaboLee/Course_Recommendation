@@ -12,19 +12,28 @@ export default class Course extends Component {
     constructor(props) {
         super(props);
         this.searchCourse = this.searchCourse.bind(this);
+        this.handleChange = this.handleChange.bind(this);
         this.state = {
             courseInfo: null,
+            searchCourseName: null,
         }
     }
 
     searchCourse() {
         var self = this;
-        axios.get('/api/searchCourse?courseSubject=CS&courseNumber=241')
+        axios.get('/api/searchCourse', {
+            params: {
+                // searchCourseName: self.searchCourseName,
+                courseSubject: "cs",
+                courseNumber: 241,
+            }
+        })
             .then(function (response) {
                 // handle success
                 self.setState({
                     courseInfo: response.data.courseInfo,
                 })
+                // console.log(response.data.courseInfo);
             })
             .catch(function (error) {
                 // handle error
@@ -35,11 +44,28 @@ export default class Course extends Component {
             });
     }
 
+    handleChange(event) {
+        const name = event.target.name;
+        const value = event.target.value;
+        this.setState({
+            [name]: value
+        });
+    }
+
     render() {
        return (
         <div>
-            <Search searchAPI={this.searchCourse}></Search>
-            <CourseDisplay courseInfo={this.state.courseInfo}></CourseDisplay>
+            <Search 
+                searchAPI={this.searchCourse}
+                handleChange={this.handleChange} />
+            {
+                this.state.courseInfo ? (
+                    <CourseDisplay 
+                        courseInfo={this.state.courseInfo}
+                        searchCourseName={this.state.searchCourseName} />
+                ) : ("") 
+            }
+            
         </div>
         )
     }
