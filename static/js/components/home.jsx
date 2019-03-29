@@ -2,7 +2,8 @@ import React, { Component } from "react";
 import axios from "axios";
 
 import Course from "./course/course";
-import Info from "./info/info";
+import UserInfo from "./user_info/Userinfo";
+
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../../css/home/home.css";
 import Navbar2 from "../components/Navbar/navbar.jsx";
@@ -40,7 +41,6 @@ export default class Home extends Component {
             userInfo: userInfo
           });
         }
-        // console.log(self.state);
       })
       .catch(function(error) {
         // handle error
