@@ -9,17 +9,25 @@ bp = Blueprint('api',__name__, url_prefix='/api')
 @bp.route('/searchCourse',methods = ('GET','POST'))
 def searchCourse():
     if request.method == 'GET':
-        coursesubject = request.args.get('courseSubject')
-        coursenumber = request.args.get('courseNumber')
+        coursename = request.args.get('searchCourseName')
+        coursesubject = ''
+        coursenumber = ''
+        numbers = ['1','2','3','4','5','6','7','8','9','0']
+        i = 0
+        while(i<len(coursename)):
+            if coursename[i] in numbers:
+                coursenumber+=coursename[i]
+            else:
+                coursesubject+=coursename[i]
         if coursesubject == None or coursenumber == None:
             dic = {'':'Please enter course'}
             return json.dumps(dic)
         db = get_db()
-        cursor = db.cursor()
-        cursor.execute('SELECT json_object("coursetitle",title,"instructor",ins,"aplus",aplus,"a",a) FROM (SELECT CourseTitle as title, Instructor as ins ,Aplus as aplus,A as a  FROM Courses2 WHERE CourseSubject = "'+coursesubject+'" and CourseNumber ='+ coursenumber+') as T;')
+        cursor = db.cursor(dictionary=True)
+        cursor.execute('SELECT CourseTitle as title, Instructor as ins ,Aplus as aplus,A as a  FROM Courses2 WHERE CourseSubject = "'+coursesubject+'" and CourseNumber ='+ coursenumber+';')
         data = cursor.fetchall()
         dic = {'courseInfo':data} 
-    return json.dumps(dic)
+    return jsonify(dic)
 
 @bp.route('/loginOrNot',methods = ('GET','POST'))
 def loginOrNot():
@@ -38,8 +46,8 @@ def userCourse():
         username = g.username
         print(username)
         db = get_db()
-        cursor = db.cursor()
-        cursor.execute('SELECT json_object("coursetitle",title,"number",number,"instructor",ins) FROM (SELECT CourseTitle as title,Coursenumber as number, Instructor as ins FROM USERCOURSES WHERE username= "'+username+'")as T;')
+        cursor = db.cursor(dictionary=True)
+        cursor.execute('SELECT CourseTitle as title,Coursenumber as number, Instructor as ins FROM USERCOURSES WHERE username= "'+username+'";')
         data = cursor.fetchall()
-        dic = {'usercourse':data}
+        dic = {'usercourse': data}
     return jsonify(dic)

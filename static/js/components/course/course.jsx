@@ -23,9 +23,7 @@ export default class Course extends Component {
         var self = this;
         axios.get('/api/searchCourse', {
             params: {
-                // searchCourseName: self.searchCourseName,
-                courseSubject: "cs",
-                courseNumber: 241,
+                searchCourseName: self.state.searchCourseName,
             }
         })
             .then(function (response) {
@@ -39,9 +37,6 @@ export default class Course extends Component {
                 // handle error
                 console.log(error);
             })
-            .then(function () {
-                // always executed
-            });
     }
 
     handleChange(event) {

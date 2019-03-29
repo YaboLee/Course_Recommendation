@@ -2,7 +2,9 @@ import React, { Component } from "react";
 import axios from "axios";
 
 import Course from "./course/course";
-import Info from "./info/info";
+import UserInfo from "./user_info/Userinfo";
+import Plan from "./coursePlan/plan"
+
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../../css/home/home.css";
 import Navbar2 from "../components/Navbar/navbar.jsx";
@@ -14,9 +16,16 @@ export default class Home extends Component {
       userInfo: {
         userName: null,
         logedin: false
-      }
+      },
+      course_add: []
     };
   }
+
+  handleCourseAdd = (new_course) => {
+    let temp = this.state.course_add;
+    temp = temp + new_course;
+    this.setState({ course_add: temp });
+  };
 
   componentDidMount() {
     var self = this;
@@ -33,7 +42,6 @@ export default class Home extends Component {
             userInfo: userInfo
           });
         }
-        // console.log(self.state);
       })
       .catch(function(error) {
         // handle error
@@ -48,13 +56,24 @@ export default class Home extends Component {
     return (
       <div className="container">
         <div className="row Navbar">
-          <Info userInfo={this.state.userInfo} className="info" />{" "}
+          <UserInfo
+            userInfo={this.state.userInfo}
+            
+            className="info"
+          />{" "}
           {/* <Course className="course" />{" "} */}
           <Navbar2 />
         </div>
         <div className="row my-row">
-          <div className="col-md-4 my-col">row 1 col 1</div>
-          <div className="col-md-6 my-col"><Course className="course" /></div>
+          <div className="col-md-4 my-col">
+            <Plan 
+              logedin={this.state.logedin}
+              userName={this.state.userName}
+              courseAdd={this.state.course_add} />
+          </div>
+          <div className="col-md-6 my-col">
+            <Course courseAdd={this.handleCourseAdd} className="course" />
+          </div>
           <div className="col-md-2 my-col">row 1 col 3</div>
         </div>
       </div>
