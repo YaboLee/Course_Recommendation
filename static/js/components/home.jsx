@@ -3,6 +3,7 @@ import axios from "axios";
 
 import Course from "./course/course";
 import UserInfo from "./user_info/Userinfo";
+import Plan from "./coursePlan/plan"
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../../css/home/home.css";
@@ -20,7 +21,7 @@ export default class Home extends Component {
     };
   }
 
-  handleCourseAdd = new_course => {
+  handleCourseAdd = (new_course) => {
     let temp = this.state.course_add;
     temp = temp + new_course;
     this.setState({ course_add: temp });
@@ -55,16 +56,21 @@ export default class Home extends Component {
     return (
       <div className="container">
         <div className="row Navbar">
-          <Info
+          <UserInfo
             userInfo={this.state.userInfo}
-            courseAdd={this.state.course_add}
+            
             className="info"
           />{" "}
           {/* <Course className="course" />{" "} */}
           <Navbar2 />
         </div>
         <div className="row my-row">
-          <div className="col-md-4 my-col">row 1 col 1</div>
+          <div className="col-md-4 my-col">
+            <Plan 
+              logedin={this.state.logedin}
+              userName={this.state.userName}
+              courseAdd={this.state.course_add} />
+          </div>
           <div className="col-md-6 my-col">
             <Course courseAdd={this.handleCourseAdd} className="course" />
           </div>
