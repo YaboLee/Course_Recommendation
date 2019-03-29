@@ -6,21 +6,11 @@ from flask import(
 from db import get_db
 bp = Blueprint('api',__name__, url_prefix='/api')
 #GET: {'coursesubject':'CS','coursenumber',241}
-#GPA Function
-def GPA(coursesubject,coursenumber):
-    db = get_db()
-    cursor = db.cursor()
-    cursor.execute('SELECT json_object(Instructor, ROUND(AVG(Course_GPA),3)) FROM(SELECT(('
-        'Aplus*4.0+A*4.0+Aminus*3.67+Bplus*3.33+B*3.0+Bminus*2.67+Cplus*2.33+C*2.0+Cminus*1.67+Dplus*1.33+D*1.00+Dminus*0.67'
-        ') / (Aplus+A+ Aminus+Bplus+B+Bminus+Cplus+C+Cminus+Dplus+D+Dminus+F) ) as Course_GPA, Instructor'
-        'FROM Courses2 WHERE CourseSubject = "'+coursesubject+'" AND CourseNumber = '+ coursenumber+') as temp GROUP BY Instructor;')
-    GPA = cursor.fetchall()
-    return jsonify(GPA)
-
 @bp.route('/searchCourse',methods = ('GET','POST'))
 def searchCourse():
     if request.method == 'GET':
         coursename = request.args.get('searchCourseName')
+        print(coursename)
         coursesubject = ''
         coursenumber = ''
         numbers = ['1','2','3','4','5','6','7','8','9','0']
@@ -30,6 +20,9 @@ def searchCourse():
                 coursenumber+=coursename[i]
             else:
                 coursesubject+=coursename[i]
+            i+=1
+        print(coursesubject)
+        print(coursenumber)
         if coursesubject == None or coursenumber == None:
             dic = {'':'Please enter course'}
             return json.dumps(dic)
