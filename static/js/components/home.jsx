@@ -42,12 +42,11 @@ export default class Home extends Component {
         .catch(function (error) {
             console.log(error);
         })
-}
+  }
 
   componentDidMount() {
     var self = this;
-    axios
-      .get("/api/loginOrNot")
+    axios.get("/api/loginOrNot")
       .then(function(response) {
         // handle success
         if (response.data.logedin === false) {

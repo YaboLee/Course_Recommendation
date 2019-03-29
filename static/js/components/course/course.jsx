@@ -57,7 +57,8 @@ export default class Course extends Component {
                 this.state.courseInfo ? (
                     <CourseDisplay 
                         courseInfo={this.state.courseInfo}
-                        searchCourseName={this.state.searchCourseName} />
+                        searchCourseName={this.state.searchCourseName}
+                        courseAdd={this.props.courseAdd} />
                 ) : ("") 
             }
             

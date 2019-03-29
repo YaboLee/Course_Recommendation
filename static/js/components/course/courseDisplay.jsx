@@ -52,8 +52,7 @@ class CourseEntry extends Component {
       courseInfo: props.courseInfo,
       searchCourseName: props.searchCourseName,
       cardTitle: "Card Subtitle",
-      cardDescription:
-        "Some quick example text to build on the card title and make up the bulk of the card's content."
+      cardDescription: "Some quick example text to build on the card title and make up the bulk of the card's content."
     };
   }
 

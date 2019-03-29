@@ -12,7 +12,7 @@ export default (
     <div>
       <Route exact path="/" component={Home} />
       <Route exact path="/auth/register" component={Register} />
-      <Route exact path="/auth/login" component={Home} />
+      <Route exact path="/auth/login" component={Login} />
     </div>
   </Router>
 );
