@@ -9,13 +9,13 @@ import {
 } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap/dist/css/bootstrap.min.css";
-import "../../../css/home/home.css"
+import "../../../css/home/home.css";
 
 class Navbar2 extends Component {
   render() {
     return (
       <React.Fragment>
-        <Navbar bg="nav" variant="light">
+        <Navbar bg="light" variant="light">
           <Navbar.Brand href="#home">Navbar</Navbar.Brand>
           <Nav className="mr-auto">
             <Nav.Link href="#home">Home</Nav.Link>

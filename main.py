@@ -13,7 +13,7 @@ cors = CORS(app, resources={r"/*": {"origins": "*"}})
 
 
 @app.route("/")
-@login_required
+# @login_required
 def hello():
     # print(g.username)
     # username = g.username

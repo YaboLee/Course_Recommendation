@@ -14,9 +14,16 @@ export default class Home extends Component {
       userInfo: {
         userName: null,
         logedin: false
-      }
+      },
+      course_add: []
     };
   }
+
+  handleCourseAdd = new_course => {
+    let temp = this.state.course_add;
+    temp = temp + new_course;
+    this.setState({ course_add: temp });
+  };
 
   componentDidMount() {
     var self = this;
@@ -48,13 +55,19 @@ export default class Home extends Component {
     return (
       <div className="container">
         <div className="row Navbar">
-          <Info userInfo={this.state.userInfo} className="info" />{" "}
+          <Info
+            userInfo={this.state.userInfo}
+            courseAdd={this.state.course_add}
+            className="info"
+          />{" "}
           {/* <Course className="course" />{" "} */}
           <Navbar2 />
         </div>
         <div className="row my-row">
           <div className="col-md-4 my-col">row 1 col 1</div>
-          <div className="col-md-6 my-col"><Course className="course" /></div>
+          <div className="col-md-6 my-col">
+            <Course courseAdd={this.handleCourseAdd} className="course" />
+          </div>
           <div className="col-md-2 my-col">row 1 col 3</div>
         </div>
       </div>
