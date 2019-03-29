@@ -9,8 +9,16 @@ bp = Blueprint('api',__name__, url_prefix='/api')
 @bp.route('/searchCourse',methods = ('GET','POST'))
 def searchCourse():
     if request.method == 'GET':
-        coursesubject = request.args.get('courseSubject')
-        coursenumber = request.args.get('courseNumber')
+        coursename = request.args.get('searchCourseName')
+        coursesubject = ''
+        coursenumber = ''
+        numbers = ['1','2','3','4','5','6','7','8','9','0']
+        i = 0
+        while(i<len(coursename)):
+            if coursename[i] in numbers:
+                coursenumber+=coursename[i]
+            else:
+                coursesubject+=coursename[i]
         if coursesubject == None or coursenumber == None:
             dic = {'':'Please enter course'}
             return json.dumps(dic)
