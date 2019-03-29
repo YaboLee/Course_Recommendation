@@ -43,6 +43,8 @@ def searchCourse():
         # data = cursor.fetchall()
         dic = {'courseInfo':data} 
         dic["title"] = title[0]['CourseTitle']
+        dic["coursenumber"] = coursenumber
+        dic['coursesubject'] = coursesubject
         print(dic)
         return jsonify(dic)
 
@@ -68,3 +70,20 @@ def userCourse():
         data = cursor.fetchall()
         dic = {'usercourse': data}
     return jsonify(dic)
+#{'coursesubject':'CS',coursenumber':241,'instructor':'Angrave'}
+@bp.route('/addCourse',methods=('GET','POST'))
+def addCourse():
+    if request.method == 'POST':
+        # addcourse = json.loads(request.data)
+        # coursesubject = addcourse['coursesubject']
+        # coursenumber = addcourse['coursenumber']
+        # instructor = instructor['instructor']
+        # username = g.username
+        coursesubject = 'CS'#test
+        coursenumber = '225'#test
+        instructor = 'Wade Fagen'#test
+        username = 'test'#test
+        db = get_db()
+        cursor = db.cursor()
+        cursor.execute('INSERT INTO USERCOURSES (username,coursenumber,coursetitle,instructor) VALUES("'+username+'",'+coursenumber+',"'+coursesubject+'","'+instructor+'");')
+    return 'successful'
