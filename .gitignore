@@ -2,4 +2,5 @@
 /static/dist
 .package-lock.json
 __pycache__
+Untitled-1.sql
 ./datasets
