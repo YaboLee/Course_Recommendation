@@ -68,17 +68,3 @@ def userCourse():
         data = cursor.fetchall()
         dic = {'usercourse': data}
     return jsonify(dic)
-
-@bp.route('/addCourse',methods=('GET','POST'))
-def addCourse():
-    if request.method == 'POST':
-        return 'jello'
-    if request.method == 'GET':
-        username = g.username
-        print(username)
-        db = get_db()
-        cursor = db.cursor(dictionary=True)
-        cursor.execute('SELECT CourseTitle as title,Coursenumber as number, Instructor as ins FROM USERCOURSES WHERE username= "'+username+'";')
-        data = cursor.fetchall()
-        dic = {'usercourse': data}
-    return jsonify(dic)
