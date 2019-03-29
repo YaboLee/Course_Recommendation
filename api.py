@@ -87,3 +87,5 @@ def addCourse():
         cursor = db.cursor()
         cursor.execute('INSERT INTO USERCOURSES (username,coursenumber,coursetitle,instructor) VALUES("'+username+'",'+coursenumber+',"'+coursesubject+'","'+instructor+'");')
     return 'successful'
+
+
