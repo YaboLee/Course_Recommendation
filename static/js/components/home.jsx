@@ -27,6 +27,23 @@ export default class Home extends Component {
     this.setState({ course_add: temp });
   };
 
+  getCoursePlan() {
+    var self = this;
+    axios.get('/api/userCourse', {
+        params: {
+            userName: self.userName,
+        }
+    })
+        .then(function (response) {
+            self.setState({
+                coursePlan: response.data.coursePlan,
+            })
+        })
+        .catch(function (error) {
+            console.log(error);
+        })
+}
+
   componentDidMount() {
     var self = this;
     axios
