@@ -6,42 +6,41 @@ export default class Plan extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            coursePlan: null,
+            userCourse: null,
             logedin: false,
             userName: null,
         }
     }
 
     componentWillReceiveProps(nextProps) {
-        var oriProps = this.props;
+        const oriProps = this.props;
         if (this.props !== nextProps) {
             this.setState(nextProps)
         } 
-        if (this.props.logedin === true && this.props.logedin !== oriProps.logedin) {
-            this.getCoursePlan();
-        }
     }
 
-    getCoursePlan() {
-        var self = this;
-        axios.get('/api/userCourse', {
-            params: {
-                userName: self.userName,
-            }
-        })
-            .then(function (response) {
-                self.setState({
-                    coursePlan: response.data.coursePlan,
-                })
-            })
-            .catch(function (error) {
-                console.log(error);
-            })
-    }
+    
 
     render() {
         return (
-            ""
+            <div>
+                {
+                    this.state.userCourse ? (
+                        <CourseList userCourse={this.state.userCourse} />
+                ) : ("")
+                }
+            </div>
         )
     }
+}
+
+function CourseList(props) {
+    const list = props.userCourse;
+    const listItems = list.map((course, index) => (
+        <li key={index}>
+            {course.title + course.number}
+            {course.ins}
+        </li>
+    ));
+    return listItems;
 }

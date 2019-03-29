@@ -24,6 +24,7 @@ export default class courseDisplay extends Component {
           courses={this.state.courseInfo}
           searchCourseName={this.state.searchCourseName}
           courseAdd={this.props.courseAdd}
+          getUserCourse={this.props.getUserCourse}
         />
       </ul>
     );
@@ -36,9 +37,10 @@ function CourseList(props) {
   const listItems = courseList.map((course, index) => (
     <li key={index}>
       <CourseEntry
-        courseAdd={this.courseAdd}
+        courseAdd={props.courseAdd}
         courseInfo={course}
         searchCourseName={searchCourseName}
+        getUserCourse={props.getUserCourse}
       />
     </li>
   ));
