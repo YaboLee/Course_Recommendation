@@ -17,17 +17,26 @@ export default class Home extends Component {
         userName: null,
         logedin: false
       },
-      course_add: []
+      userCourse: null,
     };
+    this.getUserCourse = this.getUserCourse.bind(this);
   }
 
-  handleCourseAdd = (new_course) => {
-    let temp = this.state.course_add;
-    temp = temp + new_course;
-    this.setState({ course_add: temp });
+  handleCourseAdd(courseName) {
+    var self = this;
+    axios.post('/api/addCourse', {
+        userName: self.userName,
+        courseName: courseName
+    })
+        .then(function (response) {
+            self.getUserCourse();
+        })
+        .catch(function (error) {
+            console.log(error);
+        })
   };
 
-  getCoursePlan() {
+  getUserCourse() {
     var self = this;
     axios.get('/api/userCourse', {
         params: {
@@ -36,7 +45,7 @@ export default class Home extends Component {
     })
         .then(function (response) {
             self.setState({
-                coursePlan: response.data.coursePlan,
+                userCourse: response.data.usercourse,
             })
         })
         .catch(function (error) {
@@ -64,7 +73,7 @@ export default class Home extends Component {
         console.log(error);
       })
       .then(function() {
-        // always executed
+        self.getUserCourse();
       });
   }
 
@@ -74,10 +83,8 @@ export default class Home extends Component {
         <div className="row Navbar">
           <UserInfo
             userInfo={this.state.userInfo}
-            
             className="info"
-          />{" "}
-          {/* <Course className="course" />{" "} */}
+          />
           <Navbar2 />
         </div>
         <div className="row my-row">
@@ -85,10 +92,12 @@ export default class Home extends Component {
             <Plan 
               logedin={this.state.logedin}
               userName={this.state.userName}
-              courseAdd={this.state.course_add} />
+              userCourse={this.state.userCourse} />
           </div>
           <div className="col-md-6 my-col">
-            <Course courseAdd={this.handleCourseAdd} className="course" />
+            <Course 
+              courseAdd={this.handleCourseAdd}
+              getUserCourse={this.getUserCourse} />
           </div>
           <div className="col-md-2 my-col">row 1 col 3</div>
         </div>

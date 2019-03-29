@@ -24,6 +24,7 @@ export default class courseDisplay extends Component {
           courses={this.state.courseInfo}
           searchCourseName={this.state.searchCourseName}
           courseAdd={this.props.courseAdd}
+          getUserCourse={this.props.getUserCourse}
         />
       </ul>
     );
@@ -39,6 +40,7 @@ function CourseList(props) {
         courseAdd={props.courseAdd}
         courseInfo={course}
         searchCourseName={searchCourseName}
+        getUserCourse={props.getUserCourse}
       />
     </li>
   ));
