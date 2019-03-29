@@ -15,11 +15,11 @@ def searchCourse():
             dic = {'':'Please enter course'}
             return json.dumps(dic)
         db = get_db()
-        cursor = db.cursor()
-        cursor.execute('SELECT json_object("coursetitle",title,"instructor",ins,"aplus",aplus,"a",a) FROM (SELECT CourseTitle as title, Instructor as ins ,Aplus as aplus,A as a  FROM Courses2 WHERE CourseSubject = "'+coursesubject+'" and CourseNumber ='+ coursenumber+') as T;')
+        cursor = db.cursor(dictionary=True)
+        cursor.execute('SELECT CourseTitle as title, Instructor as ins ,Aplus as aplus,A as a  FROM Courses2 WHERE CourseSubject = "'+coursesubject+'" and CourseNumber ='+ coursenumber+';')
         data = cursor.fetchall()
         dic = {'courseInfo':data} 
-    return json.dumps(dic)
+    return jsonify(dic)
 
 @bp.route('/loginOrNot',methods = ('GET','POST'))
 def loginOrNot():
@@ -38,8 +38,8 @@ def userCourse():
         username = g.username
         print(username)
         db = get_db()
-        cursor = db.cursor()
-        cursor.execute('SELECT json_object("coursetitle",title,"number",number,"instructor",ins) FROM (SELECT CourseTitle as title,Coursenumber as number, Instructor as ins FROM USERCOURSES WHERE username= "'+username+'")as T;')
+        cursor = db.cursor(dictionary=True)
+        cursor.execute('SELECT CourseTitle as title,Coursenumber as number, Instructor as ins FROM USERCOURSES WHERE username= "'+username+'";')
         data = cursor.fetchall()
-        dic = {'usercourse':data}
+        dic = {'usercourse': data}
     return jsonify(dic)
