@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Card from 'react-bootstrap/Card'
+import Button from 'react-bootstrap/Button'
 
 export default class courseDisplay extends Component {
     constructor(props) {
@@ -61,11 +62,9 @@ class CourseEntry extends Component {
     render() {
         const courseInfo = this.state.courseInfo;
         const searchCourseName = this.state.searchCourseName;
-        const courseName = courseInfo.coursetitle;
-        // console.log(courseInfo.);
-        // const courseName = "";
+        const courseName = courseInfo.title;
         return (
-            <Card style={{ width: '18rem' }}>
+            <Card>
                 <Card.Body>
                 <Card.Title>{courseName}</Card.Title>
                 <Card.Subtitle className="mb-2 text-muted">Card Subtitle</Card.Subtitle>
@@ -73,8 +72,7 @@ class CourseEntry extends Component {
                     Some quick example text to build on the card title and make up the bulk of
                     the card's content.
                 </Card.Text>
-                <Card.Link href="#">Card Link</Card.Link>
-                <Card.Link href="#">Another Link</Card.Link>
+                <Button variant="primary">Add to plan</Button>
                 </Card.Body>
         </Card>
         )
