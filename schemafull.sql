@@ -23,5 +23,6 @@ CREATE TABLE Courses2 (
     F INTEGER,
     W INTEGER,
     Instructor VARCHAR(255),
+    LIKES INTEGER(255) DEFAULT 0,
     PRIMARY KEY (CourseID) 
 )
