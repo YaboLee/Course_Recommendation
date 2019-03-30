@@ -44,6 +44,7 @@ function CourseList(props) {
         courseSubject={courseInfo.courseSubject}
         courseNumber={courseInfo.courseNumber}
         courseInstructor={course.instructor}
+        courseGPA={course.GPA}
         searchCourseName={searchCourseName}
         getUserCourse={props.getUserCourse}
       />
@@ -61,6 +62,7 @@ class CourseEntry extends Component {
       courseSubject: props.courseSubject,
       courseNumber: props.courseNumber,
       courseInstructor: props.courseInstructor,
+      courseGPA: props.courseGPA,
       searchCourseName: props.searchCourseName,
     };
   }
@@ -77,15 +79,15 @@ class CourseEntry extends Component {
     const courseSubject = this.state.courseSubject;
     const courseNumber = this.state.courseNumber;
     const courseInstructor = this.state.courseInstructor;
-    console.log(courseInstructor);
+    const courseGPA = this.state.courseGPA;
     return (
       <Card>
         <Card.Body>
           <Card.Title>{courseSubject + courseNumber + " " + courseName}</Card.Title>
           <Card.Subtitle className="mb-2 text-muted">
-            {this.state.cardTitle}
+            {courseInstructor}
           </Card.Subtitle>
-          <Card.Text>{this.state.cardDescription}</Card.Text>
+          <Card.Text>{courseGPA}</Card.Text>
           <Button
             variant="primary"
             onClick={() =>
