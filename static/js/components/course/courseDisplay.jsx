@@ -7,7 +7,7 @@ export default class courseDisplay extends Component {
     super(props);
     this.state = {
       courseInfo: props.courseInfo,
-      searchCourseName: null
+      searchCourseName: null,
     };
   }
 
@@ -21,7 +21,7 @@ export default class courseDisplay extends Component {
     return (
       <ul>
         <CourseList
-          courses={this.state.courseInfo}
+          courseInfo={this.state.courseInfo}
           searchCourseName={this.state.searchCourseName}
           courseAdd={this.props.courseAdd}
           getUserCourse={this.props.getUserCourse}
@@ -32,13 +32,18 @@ export default class courseDisplay extends Component {
 }
 
 function CourseList(props) {
-  const courseList = props.courses;
+  const courseInfo = props.courseInfo;
+  const courseList = courseInfo.courses;
   const searchCourseName = props.searchCourseName;
   const listItems = courseList.map((course, index) => (
     <li key={index}>
       <CourseEntry
         courseAdd={props.courseAdd}
         courseInfo={course}
+        courseTitle={courseInfo.courseTitle}
+        courseSubject={courseInfo.courseSubject}
+        courseNumber={courseInfo.courseNumber}
+        courseInstructor={course.instructor}
         searchCourseName={searchCourseName}
         getUserCourse={props.getUserCourse}
       />
@@ -52,9 +57,11 @@ class CourseEntry extends Component {
     super(props);
     this.state = {
       courseInfo: props.courseInfo,
+      courseTitle: props.courseTitle,
+      courseSubject: props.courseSubject,
+      courseNumber: props.courseNumber,
+      courseInstructor: props.courseInstructor,
       searchCourseName: props.searchCourseName,
-      cardTitle: "Card Subtitle",
-      cardDescription: "Some quick example text to build on the card title and make up the bulk of the card's content."
     };
   }
 
@@ -66,12 +73,15 @@ class CourseEntry extends Component {
 
   render() {
     const courseInfo = this.state.courseInfo;
-    const searchCourseName = this.state.searchCourseName;
-    const courseName = courseInfo.title;
+    const courseName = this.state.courseTitle;
+    const courseSubject = this.state.courseSubject;
+    const courseNumber = this.state.courseNumber;
+    const courseInstructor = this.state.courseInstructor;
+    console.log(courseInstructor);
     return (
       <Card>
         <Card.Body>
-          <Card.Title>{courseName}</Card.Title>
+          <Card.Title>{courseSubject + courseNumber + " " + courseName}</Card.Title>
           <Card.Subtitle className="mb-2 text-muted">
             {this.state.cardTitle}
           </Card.Subtitle>
@@ -80,9 +90,10 @@ class CourseEntry extends Component {
             variant="primary"
             onClick={() =>
               this.props.courseAdd({
-                name: courseName,
-                title: this.state.cardTitle,
-                description: this.state.cardDescription
+                courseName: courseName,
+                courseSubject: courseSubject,
+                courseNumber: courseNumber,
+                courseInstructor: courseInstructor
               })
             }
           >

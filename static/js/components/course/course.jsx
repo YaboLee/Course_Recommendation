@@ -28,8 +28,13 @@ export default class Course extends Component {
         })
             .then(function (response) {
                 // handle success
+                var courseInfo = Object();
+                courseInfo.courses = response.data.courseInfo;
+                courseInfo.courseTitle = response.data.title;
+                courseInfo.courseSubject = response.data.coursesubject;
+                courseInfo.courseNumber = response.data.coursenumber;
                 self.setState({
-                    courseInfo: response.data.courseInfo,
+                    courseInfo: courseInfo,
                 })
                 // console.log(response.data.courseInfo);
             })

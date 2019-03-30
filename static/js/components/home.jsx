@@ -22,13 +22,18 @@ export default class Home extends Component {
     this.getUserCourse = this.getUserCourse.bind(this);
   }
 
-  handleCourseAdd(courseName) {
+  handleCourseAdd(props) {
     var self = this;
+    console.log(props);
     axios.post('/api/addCourse', {
         userName: self.userName,
-        courseName: courseName
+        courseName: props.courseName,
+        courseSubject: props.courseSubject,
+        courseNumber: props.courseNumber,
+        courseInstructor: props.courseInstructor
     })
         .then(function (response) {
+          console.log(response);
             self.getUserCourse();
         })
         .catch(function (error) {
@@ -78,6 +83,7 @@ export default class Home extends Component {
   }
 
   render() {
+    console.log(this.state.userCourse);
     return (
       <div className="container">
         <div className="row Navbar">
