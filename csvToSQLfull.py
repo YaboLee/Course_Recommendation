@@ -29,7 +29,7 @@ regint = re.compile('^[-+]?[0-9.]+$')
 j = 0
 for row in csv_data:
     # print(row)
-    exestr = 'INSERT INTO Courses2 VALUES('+str(j)+','
+    exestr = 'INSERT INTO Courses2 (CourseID,YEAR,Term,YearTerm,CourseSubject,CourseNumber,CourseTitle,Aplus,A,Aminus,Bplus,B,Bminus,Cplus,C,Cminus,Dplus,D,Dminus,F,W,Instructor) VALUES ('+str(j)+','
     if j > 0:
         for i in range(len(row)):
             if regint.match(row[i])!=None:

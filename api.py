@@ -10,8 +10,9 @@ def GPA(coursesubject,coursenumber):
     cursor = db.cursor(dictionary = True)
     cursor.execute('SELECT Instructor as instructor , CAST(ROUND(AVG(Course_GPA),3) AS CHAR) as GPA FROM(SELECT((Aplus*4.0+A*4.0+Aminus*3.67+Bplus*3.33+B*3.0+Bminus*2.67+Cplus*2.33+C*2.0+Cminus*1.67+Dplus*1.33+D*1.00+Dminus*0.67) / (Aplus+A+ Aminus+Bplus+B+Bminus+Cplus+C+Cminus+Dplus+D+Dminus+F) ) as Course_GPA, Instructor FROM Courses2 WHERE CourseSubject = "'+coursesubject+'" AND CourseNumber = '+coursenumber+' ) as temp GROUP BY Instructor;')
     GPA = cursor.fetchall()
-    cursor.execute('SELECT DISTINCT CourseTitle FROM Courses2 WHERE CourseNumber='+coursenumber+' and CourseSubject="'+coursesubject+'";')
+    cursor.execute('SELECT DISTINCT CourseTitle,LIKES FROM Courses2 WHERE CourseNumber='+coursenumber+' and CourseSubject="'+coursesubject+'";')
     coursetitle = cursor.fetchall()
+    print(coursetitle)
     return GPA,coursetitle
 #GET: {'coursesubject':'CS','coursenumber',241}
 #return
@@ -50,7 +51,7 @@ def searchCourse():
         dic = {'courseInfo':data} 
         dic["title"] = title[0]['CourseTitle']
         dic["coursenumber"] = coursenumber
-        dic['coursesubject'] = coursesubject
+        dic['coursesubject'] = coursesubject 
         print(dic)
         return jsonify(dic)
 
@@ -111,5 +112,17 @@ def deleteCourse():
         cursor.execute('DELETE FROM USERCOURSES WHERE USERNAME = "'+username+'" AND COURSENUMBER = '+coursenumber+' AND COURSETITLE = "'+coursesubject+'" AND INSTRUCTOR = "'+instructor+'";')
         db.commit()
     return 'delete successful'
-
+@bp.route('/thumbsUp',methods = ('GET','POST'))
+def thumbsUp():
+    if request.method == 'POST':
+        course  =json.loads(request.data)
+        coursesubject = course['courseSubject']
+        coursenumber = str(course['courseNumber'])
+        instructor = course['courseInstructor']
+        print(coursesubject,coursenumber,instructor)
+        db = get_db()
+        cursor = db.cursor()
+        cursor.execute('UPDATE Courses2 SET LIKES := LIKES+1 WHERE CourseNumber = '+coursenumber+' AND CourseSubject =  "'+coursesubject+'" AND Instructor = "'+instructor+'";')
+        db.commit()
+    return 'LIKE successful'
 
