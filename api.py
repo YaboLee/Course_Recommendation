@@ -83,7 +83,7 @@ def addCourse():
         addcourse = json.loads(request.data)
         coursesubject = addcourse['courseSubject']
         coursenumber = addcourse['courseNumber']
-        instructor = instructor['instructor']
+        instructor = addcourse['courseInstructor']
         username = g.username
         # coursesubject = 'KIN'#test
         # coursenumber = '249'#test
@@ -100,7 +100,7 @@ def deleteCourse():
         deletecourse = json.loads(request.data)
         coursesubject = deletecourse['courseSubject']
         coursenumber = deletecourse['courseNumber']
-        instructor = instructor['instructor']
+        instructor = deletecourse['courseInstructor']
         username = g.username
         # coursesubject = 'KIN'#test
         # coursenumber = '249'#test
