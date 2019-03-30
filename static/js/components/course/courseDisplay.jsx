@@ -1,6 +1,10 @@
 import React, { Component } from "react";
+import axios from "axios";
+
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import {faThumbsUp} from "@fortawesome/free-solid-svg-icons"
 
 export default class courseDisplay extends Component {
   constructor(props) {
@@ -64,6 +68,7 @@ class CourseEntry extends Component {
       courseInstructor: props.courseInstructor,
       courseGPA: props.courseGPA,
       searchCourseName: props.searchCourseName,
+      likes: 0
     };
   }
 
@@ -73,6 +78,30 @@ class CourseEntry extends Component {
     }
   }
 
+  handleThumbsUp(props) {
+    var self = this;
+    // console.log(props);
+    axios.post('/api/thumbsUp', {
+        // userName: self.userName,
+        courseName: props.courseName,
+        courseSubject: props.courseSubject,
+        courseNumber: props.courseNumber,
+        courseInstructor: props.courseInstructor
+    })
+        .then(function (response) {
+          // console.log(response);
+            // self.getUserCourse();
+            var likes = self.state.likes;
+            self.setState({
+            likes: likes+1
+          })
+          
+        })
+        .catch(function (error) {
+            console.log(error);
+        })
+  }
+
   render() {
     const courseInfo = this.state.courseInfo;
     const courseName = this.state.courseTitle;
@@ -80,6 +109,7 @@ class CourseEntry extends Component {
     const courseNumber = this.state.courseNumber;
     const courseInstructor = this.state.courseInstructor;
     const courseGPA = this.state.courseGPA;
+    const courseLikes = this.state.likes;
     return (
       <Card>
         <Card.Body>
@@ -87,7 +117,8 @@ class CourseEntry extends Component {
           <Card.Subtitle className="mb-2 text-muted">
             {courseInstructor}
           </Card.Subtitle>
-          <Card.Text>{courseGPA}</Card.Text>
+          <Card.Text>GPA: {courseGPA}</Card.Text>
+          <Card.Text>Likes: {courseLikes}</Card.Text>
           <Button
             variant="primary"
             onClick={() =>
@@ -101,6 +132,14 @@ class CourseEntry extends Component {
           >
             Add to plan
           </Button>
+          <FontAwesomeIcon 
+            onClick={() => this.handleThumbsUp({
+              courseName: courseName,
+              courseSubject: courseSubject,
+              courseNumber: courseNumber,
+              courseInstructor: courseInstructor
+            })}
+            icon={faThumbsUp} />
         </Card.Body>
       </Card>
     );

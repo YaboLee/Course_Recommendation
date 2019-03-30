@@ -24,7 +24,7 @@ export default class Home extends Component {
 
   handleCourseAdd(props) {
     var self = this;
-    console.log(props);
+    // console.log(props);
     axios.post('/api/addCourse', {
         userName: self.userName,
         courseName: props.courseName,
@@ -52,7 +52,7 @@ export default class Home extends Component {
         courseInstructor: props.courseInstructor
     })
         .then(function (response) {
-          console.log(response);
+          // console.log(response);
             self.getUserCourse();
         })
         .catch(function (error) {
@@ -102,7 +102,6 @@ export default class Home extends Component {
   }
 
   render() {
-    console.log(this.state.userCourse);
     return (
       <div className="container">
         <div className="row Navbar">
