@@ -72,7 +72,7 @@ def userCourse():
         print(username)
         db = get_db()
         cursor = db.cursor(dictionary=True)
-        cursor.execute('SELECT CourseTitle as title,Coursenumber as number, Instructor as ins FROM USERCOURSES WHERE username= "'+username+'";')
+        cursor.execute('SELECT CourseTitle as courseSubject, Coursenumber as courseNumber, Instructor as courseInstructor FROM USERCOURSES WHERE username= "'+username+'";')
         data = cursor.fetchall()
         dic = {'usercourse': data}
     return jsonify(dic)
@@ -99,7 +99,7 @@ def deleteCourse():
     if request.method == 'POST':
         deletecourse = json.loads(request.data)
         coursesubject = deletecourse['courseSubject']
-        coursenumber = deletecourse['courseNumber']
+        coursenumber = str(deletecourse['courseNumber'])
         instructor = deletecourse['courseInstructor']
         username = g.username
         # coursesubject = 'KIN'#test

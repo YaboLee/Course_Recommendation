@@ -41,6 +41,25 @@ export default class Home extends Component {
         })
   };
 
+  handleCourseDelete(props) {
+    var self = this;
+    // console.log(props);
+    axios.post('/api/deleteCourse', {
+        userName: self.userName,
+        courseName: props.courseName,
+        courseSubject: props.courseSubject,
+        courseNumber: props.courseNumber,
+        courseInstructor: props.courseInstructor
+    })
+        .then(function (response) {
+          console.log(response);
+            self.getUserCourse();
+        })
+        .catch(function (error) {
+            console.log(error);
+        })
+  };
+
   getUserCourse() {
     var self = this;
     axios.get('/api/userCourse', {
@@ -98,7 +117,9 @@ export default class Home extends Component {
             <Plan 
               logedin={this.state.logedin}
               userName={this.state.userName}
-              userCourse={this.state.userCourse} />
+              userCourse={this.state.userCourse}
+              courseDelete={this.handleCourseDelete}
+              getUserCourse={this.getUserCourse} />
           </div>
           <div className="col-md-6 my-col">
             <Course 
