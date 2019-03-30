@@ -74,18 +74,37 @@ def userCourse():
 @bp.route('/addCourse',methods=('GET','POST'))
 def addCourse():
     if request.method == 'POST':
-        # addcourse = json.loads(request.data)
-        # coursesubject = addcourse['coursesubject']
-        # coursenumber = addcourse['coursenumber']
-        # instructor = instructor['instructor']
-        # username = g.username
-        coursesubject = 'CS'#test
-        coursenumber = '225'#test
-        instructor = 'Wade Fagen'#test
-        username = 'test'#test
+        addcourse = json.loads(request.data)
+        coursesubject = addcourse['courseSubject']
+        coursenumber = addcourse['courseNumber']
+        instructor = instructor['instructor']
+        username = g.username
+        # coursesubject = 'KIN'#test
+        # coursenumber = '249'#test
+        # instructor = 'Wade Fagen'#test
+        # username = 'test'#test
         db = get_db()
         cursor = db.cursor()
         cursor.execute('INSERT INTO USERCOURSES (username,coursenumber,coursetitle,instructor) VALUES("'+username+'",'+coursenumber+',"'+coursesubject+'","'+instructor+'");')
-    return 'successful'
+        db.commit()
+    return 'add successful'
+@bp.route('/deleteCourse',methods=('GET','POST'))
+def deleteCourse():
+    if request.method == 'POST':
+        deletecourse = json.loads(request.data)
+        coursesubject = deletecourse['courseSubject']
+        coursenumber = deletecourse['courseNumber']
+        instructor = instructor['instructor']
+        username = g.username
+        # coursesubject = 'KIN'#test
+        # coursenumber = '249'#test
+        # instructor = 'Wade Fagen'#test
+        # username = 'test'#test
+        db = get_db()
+        cursor = db.cursor()
+        cursor.execute('DELETE FROM USERCOURSES WHERE USERNAME = "'+username+'" AND COURSENUMBER = '+coursenumber+' AND COURSETITLE = "'+coursesubject+'" AND INSTRUCTOR = "'+instructor+'";')
+        db.commit()
+    return 'delete successful'
+
 
 
