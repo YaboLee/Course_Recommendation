@@ -14,6 +14,12 @@ def GPA(coursesubject,coursenumber):
     coursetitle = cursor.fetchall()
     return GPA,coursetitle
 #GET: {'coursesubject':'CS','coursenumber',241}
+#return
+# {'courseInfo': [{'instructor': 'Angrave, Lawrence C', 'GPA': '2.774'}, 
+# {'instructor': 'Evans, Graham C', 'GPA': '2.619'}, 
+# {'instructor': 'Caccamo, Marco', 'GPA': '2.545'}, 
+# {'instructor': 'Fagen, Wade A', 'GPA': '2.492'}, {'instructor': 'Kravets, Robin H', 'GPA': '2.396'}], 
+# 'title': 'System Programming', 'coursenumber': '241', 'coursesubject': 'cs'}
 @bp.route('/searchCourse',methods = ('GET','POST'))
 def searchCourse():
     if request.method == 'GET':
