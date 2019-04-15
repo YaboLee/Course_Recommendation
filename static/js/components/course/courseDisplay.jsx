@@ -67,6 +67,8 @@ function CourseList(props) {
 class CourseEntry extends Component {
   constructor(props) {
     super(props);
+    this.handleComment = this.handleComment.bind(this);
+    this.handleCommentChange = this.handleCommentChange.bind(this);
     this.state = {
       courseInfo: props.courseInfo,
       courseTitle: props.courseTitle,
@@ -77,6 +79,7 @@ class CourseEntry extends Component {
       searchCourseName: props.searchCourseName,
       courseLikes: props.courseLikes,
       commentAppend: false,
+      commentValue: "",
     };
   }
 
@@ -122,8 +125,32 @@ class CourseEntry extends Component {
   }
 
   postComment() {
-
+    var self = this;
+    axios.post('/api/comment', {
+        // userName: self.userName,
+        // courseName: self.state.courseName,
+        courseSubject: self.state.courseSubject,
+        courseNumber: self.state.courseNumber,
+        courseInstructor: self.state.courseInstructor,
+        courseComment: self.state.commentValue
+    })
+        .then(function (response) {
+          console.log(response);
+            // self.getUserCourse();
+        })
+        .catch(function (error) {
+            console.log(error);
+        })
   }
+
+  handleCommentChange(event) {
+    console.log(event.target);
+    const name = event.target.name;
+    const value = event.target.value;
+    this.setState({
+        [name]: value
+    });
+}
 
   render() {
     const courseInfo = this.state.courseInfo;
@@ -166,7 +193,7 @@ class CourseEntry extends Component {
               icon={faThumbsUp} />
             <Button
               variant="primary"
-              onClick={ () => this.handleComment()}
+              onClick={this.handleComment}
               >
               Comment
             </Button>
@@ -174,7 +201,10 @@ class CourseEntry extends Component {
         </Card>
         {
           this.state.commentAppend ? 
-            <CommentBox /> :
+            <CommentBox
+              handleCommentChange={this.handleCommentChange}
+              value={this.state.commentValue}
+             /> :
             ""
           }
       </div>
@@ -186,29 +216,30 @@ class CourseEntry extends Component {
 class CommentBox extends Component {
   constructor(props){
     super(props);
-    this.handleChange = this.handleChange.bind(this);
+    // this.handleChange = this.handleChange.bind(this);
     this.state = {
-      value: null,
+      value: props.value,
     }
   }
 
-  handleChange(event) {
-    const name = event.target.name;
-    const value = event.target.value;
-    this.setState({
-        [name]: value
-    });
-}
+
+  componentWillReceiveProps(props) {
+    if (this.props !== props) {
+      this.setState(props);
+    }
+  }
 
   render() {
+    console.log(this.state)
+    console.log(this.props)
     return (
       <TextField
           id="outlined-multiline-flexible"
           label="Multiline"
-          multiline
+          name="commentValue"
           rowsMax="4"
-          value={this.state.multiline}
-          onChange={this.handleChange}
+          value={this.state.value}
+          onChange={this.props.handleCommentChange}
           margin="normal"
           helperText="hello"
           variant="outlined"
