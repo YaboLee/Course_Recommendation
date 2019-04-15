@@ -6,7 +6,7 @@ import UserInfo from "./user_info/Userinfo";
 import Plan from "./coursePlan/plan"
 
 import "bootstrap/dist/css/bootstrap.min.css";
-import "../../css/home/home.css";
+import "../../css/home/home.css"
 import Navbar2 from "../components/Navbar/navbar.jsx";
 
 export default class Home extends Component {
@@ -24,7 +24,6 @@ export default class Home extends Component {
 
   handleCourseAdd(props) {
     var self = this;
-    // console.log(props);
     axios.post('/api/addCourse', {
         userName: self.userName,
         courseName: props.courseName,
@@ -43,7 +42,6 @@ export default class Home extends Component {
 
   handleCourseDelete(props) {
     var self = this;
-    // console.log(props);
     axios.post('/api/deleteCourse', {
         userName: self.userName,
         courseName: props.courseName,
@@ -52,7 +50,6 @@ export default class Home extends Component {
         courseInstructor: props.courseInstructor
     })
         .then(function (response) {
-          // console.log(response);
             self.getUserCourse();
         })
         .catch(function (error) {
@@ -81,7 +78,6 @@ export default class Home extends Component {
     var self = this;
     axios.get("/api/loginOrNot")
       .then(function(response) {
-        // handle success
         if (response.data.logedin === false) {
           self.props.history.push("/auth/login");
         } else {
@@ -93,7 +89,6 @@ export default class Home extends Component {
         }
       })
       .catch(function(error) {
-        // handle error
         console.log(error);
       })
       .then(function() {
@@ -112,7 +107,7 @@ export default class Home extends Component {
           <Navbar2 />
         </div>
         <div className="row my-row">
-          <div className="col-md-4 my-col">
+          <div className="col-md-3 my-col">
             <Plan 
               logedin={this.state.logedin}
               userName={this.state.userName}
@@ -125,7 +120,7 @@ export default class Home extends Component {
               courseAdd={this.handleCourseAdd}
               getUserCourse={this.getUserCourse} />
           </div>
-          <div className="col-md-2 my-col">row 1 col 3</div>
+          <div className="col-md-3 my-col">row 1 col 3</div>
         </div>
       </div>
     );

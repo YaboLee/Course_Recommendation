@@ -5,6 +5,11 @@ import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {faThumbsUp} from "@fortawesome/free-solid-svg-icons"
+import PropTypes from 'prop-types';
+import classNames from 'classnames';
+import { createStyles, Theme, withStyles, WithStyles } from '@material-ui/core/styles';
+import MenuItem from '@material-ui/core/MenuItem';
+import TextField from '@material-ui/core/TextField';
 
 export default class courseDisplay extends Component {
   constructor(props) {
@@ -39,6 +44,7 @@ function CourseList(props) {
   const courseInfo = props.courseInfo;
   const courseList = courseInfo.courses;
   const searchCourseName = props.searchCourseName;
+  // console.log(courseList);
   const listItems = courseList.map((course, index) => (
     <li key={index}>
       <CourseEntry
@@ -49,6 +55,7 @@ function CourseList(props) {
         courseNumber={courseInfo.courseNumber}
         courseInstructor={course.instructor}
         courseGPA={course.GPA}
+        courseLikes={course.LIKES}
         searchCourseName={searchCourseName}
         getUserCourse={props.getUserCourse}
       />
@@ -68,7 +75,8 @@ class CourseEntry extends Component {
       courseInstructor: props.courseInstructor,
       courseGPA: props.courseGPA,
       searchCourseName: props.searchCourseName,
-      likes: 0
+      courseLikes: props.courseLikes,
+      commentAppend: false,
     };
   }
 
@@ -91,15 +99,30 @@ class CourseEntry extends Component {
         .then(function (response) {
           // console.log(response);
             // self.getUserCourse();
-            var likes = self.state.likes;
+            var likes = self.state.courseLikes;
             self.setState({
-            likes: likes+1
+            courseLikes: likes+1
           })
           
         })
         .catch(function (error) {
             console.log(error);
         })
+  }
+
+  handleComment() {
+    if (this.state.commentAppend === false) {
+      this.setState({
+        commentAppend: true
+      })
+    }
+    else {
+      this.postComment();
+    }
+  }
+
+  postComment() {
+
   }
 
   render() {
@@ -109,39 +132,87 @@ class CourseEntry extends Component {
     const courseNumber = this.state.courseNumber;
     const courseInstructor = this.state.courseInstructor;
     const courseGPA = this.state.courseGPA;
-    const courseLikes = this.state.likes;
+    const courseLikes = this.state.courseLikes;
     return (
-      <Card>
-        <Card.Body>
-          <Card.Title>{courseSubject + courseNumber + " " + courseName}</Card.Title>
-          <Card.Subtitle className="mb-2 text-muted">
-            {courseInstructor}
-          </Card.Subtitle>
-          <Card.Text>GPA: {courseGPA}</Card.Text>
-          <Card.Text>Likes: {courseLikes}</Card.Text>
-          <Button
-            variant="primary"
-            onClick={() =>
-              this.props.courseAdd({
+      <div>
+        <Card>
+          <Card.Body>
+            <Card.Title>{courseSubject + courseNumber + " " + courseName}</Card.Title>
+            <Card.Subtitle className="mb-2 text-muted">
+              {courseInstructor}
+            </Card.Subtitle>
+            <Card.Text>GPA: {courseGPA}</Card.Text>
+            <Card.Text>Likes: {courseLikes}</Card.Text>
+            <Button
+              variant="primary"
+              onClick={() =>
+                this.props.courseAdd({
+                  courseName: courseName,
+                  courseSubject: courseSubject,
+                  courseNumber: courseNumber,
+                  courseInstructor: courseInstructor
+                })
+              }
+            >
+              Add to plan
+            </Button>
+            <FontAwesomeIcon 
+              onClick={() => this.handleThumbsUp({
                 courseName: courseName,
                 courseSubject: courseSubject,
                 courseNumber: courseNumber,
                 courseInstructor: courseInstructor
-              })
-            }
-          >
-            Add to plan
-          </Button>
-          <FontAwesomeIcon 
-            onClick={() => this.handleThumbsUp({
-              courseName: courseName,
-              courseSubject: courseSubject,
-              courseNumber: courseNumber,
-              courseInstructor: courseInstructor
-            })}
-            icon={faThumbsUp} />
-        </Card.Body>
-      </Card>
+              })}
+              icon={faThumbsUp} />
+            <Button
+              variant="primary"
+              onClick={ () => this.handleComment()}
+              >
+              Comment
+            </Button>
+          </Card.Body>
+        </Card>
+        {
+          this.state.commentAppend ? 
+            <CommentBox /> :
+            ""
+          }
+      </div>
+      
     );
+  }
+}
+
+class CommentBox extends Component {
+  constructor(props){
+    super(props);
+    this.handleChange = this.handleChange.bind(this);
+    this.state = {
+      value: null,
+    }
+  }
+
+  handleChange(event) {
+    const name = event.target.name;
+    const value = event.target.value;
+    this.setState({
+        [name]: value
+    });
+}
+
+  render() {
+    return (
+      <TextField
+          id="outlined-multiline-flexible"
+          label="Multiline"
+          multiline
+          rowsMax="4"
+          value={this.state.multiline}
+          onChange={this.handleChange}
+          margin="normal"
+          helperText="hello"
+          variant="outlined"
+        />      
+    )
   }
 }
