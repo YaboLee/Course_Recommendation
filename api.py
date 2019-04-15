@@ -125,4 +125,18 @@ def thumbsUp():
         cursor.execute('UPDATE Courses3 SET LIKES := LIKES+1 WHERE CourseNumber = '+coursenumber+' AND CourseSubject =  "'+coursesubject+'" AND Instructor = "'+instructor+'";')
         db.commit()
     return 'LIKE successful'
+@bp.route('/comment',methods = ('GET','POST'))
+def comment():
+    if request.method =='POST':
+        course = json.loads(request.data)
+        username = g.username
+        coursesubject = course['courseSubject']
+        coursenumber = str(course['courseNumber'])
+        instructor = course['courseInstructor']
+        comment = course['courseComment']
+        db = get_db()
+        cursor = db.cursor()
+        cursor.execute('INSERT INTO CourseComment (USERNAME,CourseSubject,CourseNumber,Instructor,CourseComment) VALUES("'+username+'",'+coursesubject+'",'+coursenumber+',"'+instructor+'","'+comment+'")')
+        db.commit()
+    return "COMMENT successful!"
 

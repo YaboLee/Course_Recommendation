@@ -1,5 +1,6 @@
 USE test;
 DROP TABLE IF EXISTS Courses3;
+DROP TABLE IF EXISTS CourseComment;
 CREATE TABLE Courses3(
     id INTEGER AUTO_INCREMENT,
     CourseSubject VARCHAR(255),
@@ -12,3 +13,12 @@ CREATE TABLE Courses3(
 INSERT INTO Courses3 (CourseSubject,CourseNumber,CourseTitle,Instructor)
 SELECT DISTINCT CourseSubject, CourseNumber, CourseTitle, Instructor
 FROM Courses2;
+CREATE TABLE CourseComment(
+    id INTEGER AUTO_INCREMENT,
+    Username VARCHAR(255),
+    CourseSubject VARCHAR(255),
+    CourseNumber INTEGER,
+    Instructor VARCHAR(255),
+    CourseComment TEXT,
+    PRIMARY KEY (id)
+);
