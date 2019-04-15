@@ -8,7 +8,7 @@ bp = Blueprint('api',__name__, url_prefix='/api')
 def GPA(coursesubject,coursenumber):
     db = get_db()
     cursor = db.cursor(dictionary = True)
-    cursor.execute('SELECT Instructor as instructor , CAST(ROUND(AVG(Course_GPA),3) AS CHAR) as GPA FROM(SELECT((Aplus*4.0+A*4.0+Aminus*3.67+Bplus*3.33+B*3.0+Bminus*2.67+Cplus*2.33+C*2.0+Cminus*1.67+Dplus*1.33+D*1.00+Dminus*0.67) / (Aplus+A+ Aminus+Bplus+B+Bminus+Cplus+C+Cminus+Dplus+D+Dminus+F) ) as Course_GPA, Instructor FROM Courses2 WHERE CourseSubject = "'+coursesubject+'" AND CourseNumber = '+coursenumber+' ) as temp GROUP BY Instructor;')
+    cursor.execute('SELECT T1.instructor,T1.GPA,T2.LIKES FROM ( (SELECT Instructor as instructor, CAST(ROUND(AVG(Course_GPA),3) AS CHAR) as GPA FROM(SELECT((Aplus*4.0+A*4.0+Aminus*3.67+Bplus*3.33+B*3.0+Bminus*2.67+Cplus*2.33+C*2.0+Cminus*1.67+Dplus*1.33+D*1.00+Dminus*0.67) / (Aplus+A+ Aminus+Bplus+B+Bminus+Cplus+C+Cminus+Dplus+D+Dminus+F) ) as Course_GPA, Instructor, LIKES FROM Courses2 WHERE CourseSubject = "'+coursesubject+'" AND CourseNumber = '+coursenumber+' ) as temp GROUP BY Instructor) AS T1 INNER JOIN (SELECT Instructor, LIKES FROM Courses3 WHERE CourseSubject = "'+coursesubject+'" AND CourseNumber = '+coursenumber+' ) as T2 ON T1.instructor = T2.Instructor);')
     GPA = cursor.fetchall()
     cursor.execute('SELECT DISTINCT CourseTitle,LIKES FROM Courses2 WHERE CourseNumber='+coursenumber+' and CourseSubject="'+coursesubject+'";')
     coursetitle = cursor.fetchall()
@@ -122,7 +122,7 @@ def thumbsUp():
         print(coursesubject,coursenumber,instructor)
         db = get_db()
         cursor = db.cursor()
-        cursor.execute('UPDATE Courses2 SET LIKES := LIKES+1 WHERE CourseNumber = '+coursenumber+' AND CourseSubject =  "'+coursesubject+'" AND Instructor = "'+instructor+'";')
+        cursor.execute('UPDATE Courses3 SET LIKES := LIKES+1 WHERE CourseNumber = '+coursenumber+' AND CourseSubject =  "'+coursesubject+'" AND Instructor = "'+instructor+'";')
         db.commit()
     return 'LIKE successful'
 
