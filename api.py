@@ -136,7 +136,8 @@ def comment():
         comment = course['courseComment']
         db = get_db()
         cursor = db.cursor()
-        cursor.execute('INSERT INTO CourseComment (USERNAME,CourseSubject,CourseNumber,Instructor,CourseComment) VALUES("'+username+'",'+coursesubject+'",'+coursenumber+',"'+instructor+'","'+comment+'")')
+        print('INSERT INTO CourseComment (USERNAME,CourseSubject,CourseNumber,Instructor,CourseComment) VALUES("'+username+'",'+coursesubject+'",'+coursenumber+',"'+instructor+'","'+comment+'")')
+        cursor.execute('INSERT INTO CourseComment (USERNAME,CourseSubject,CourseNumber,Instructor,CourseComment) VALUES("'+username+'","'+coursesubject+'",'+coursenumber+',"'+instructor+'","'+comment+'")')
         db.commit()
     return "COMMENT successful!"
 
