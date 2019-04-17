@@ -9,6 +9,7 @@ export default class Feed extends Component {
         this.state = {
             endpoint: "https://localhost:8000/socket.io/",
             feeds: [],
+            userName: props.userName,
         }
         this.socket = io("http://localhost:5000");
         // this.socket.connect("http://localhost:8000/socket.io/");
@@ -37,7 +38,7 @@ export default class Feed extends Component {
     showComments = () => {
         axios.get('http://localhost:5000/api/showComments', {
         params: {
-            userName: this.props.userName,
+            userName: this.state.userName,
         }
     })
         .then(function (response) {
