@@ -7,6 +7,7 @@ import { func } from "prop-types";
 export default class Feed extends Component {
     constructor(props) {
         super(props);
+        this.showComments = this.showComments.bind(this);
         this.state = {
             endpoint: "https://localhost:8000/socket.io/",
             feeds: [],
@@ -33,16 +34,16 @@ export default class Feed extends Component {
         }
       }
 
-    showComments = () => {
-        console.log(this.state);
+    showComments(){
+        var self = this;
         axios.get('http://localhost:5000/api/showComments', {
         params: {
-            userName: this.state.userName,
+            userName: self.state.userName,
         }
     })
         .then(function (response) {
             console.log(response.data.data.comments);
-            this.setState({
+            self.setState({
                 feeds: response.data.data.comments,
             })
         })
@@ -59,14 +60,20 @@ export default class Feed extends Component {
                     onClick={() => this.showComments()}>
                     Show Comments
                 </Button>
-
+                {
+                    this.state.feeds.length !== 0 ?
+                        <CommentsList
+                            comments={this.state.feeds} />
+                        : " "
+                }
+                
             </div>
         );
     }
 }
 
 function CommentsList(props) {
-    const comments = props.coments;
+    const comments = props.comments;
     const listItems = comments.map((comment, index) => (
         <li key={index}>
             <div>
@@ -76,4 +83,5 @@ function CommentsList(props) {
             </div>
         </li>
     ));
+    return listItems;
 }

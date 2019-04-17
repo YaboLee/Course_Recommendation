@@ -1,9 +1,10 @@
-import MySQLdb
+import mysql.connector as MySQLdb
 mydb = MySQLdb.connect(host='127.0.0.1',
     port=33061,
     user='test',
     passwd='test',
     db='test',
+    auth_plugin='mysql_native_password'
 )
 cursor = mydb.cursor()
 username = 'test'
