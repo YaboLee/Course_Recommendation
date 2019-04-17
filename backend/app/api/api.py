@@ -133,8 +133,8 @@ def thumbsUp():
 @api_bp.route('/comment',methods = ('GET','POST'))
 def comment():
     if request.method =='POST':
-        producer = KafkaProducer(bootstrap_servers='localhost:9092')
-        producer.send('test', request.data)
+        # producer = KafkaProducer(bootstrap_servers='localhost:9092')
+        # producer.send('test', request.data)
 
         course = json.loads(request.data)
         username = g.username
@@ -148,6 +148,28 @@ def comment():
         cursor.execute('INSERT INTO CourseComment (USERNAME,CourseSubject,CourseNumber,Instructor,CourseComment) VALUES("'+username+'","'+coursesubject+'",'+coursenumber+',"'+instructor+'","'+comment+'")')
         db.commit()
     return "COMMENT successful!"
+@api_bp.route('/showComment',methods = ('GET','POST'))
+def showComment():
+    if request.method == 'GET':
+        username = request.args.get('userName')
+        db = get_db()
+        cursor = db.cursor()
+        sql = 'SELECT * FROM CourseComment WHERE CourseSubject = %s AND CourseNumber = %s AND Instructor = %s'
+        sql2 = 'SELECT * FROM CourseComment WHERE CourseSubject = %s AND CourseNumber = %s'
+        cursor.execute('SELECT * FROM Interests WHERE Username = "'+username+'";')
+        tags = cursor.fetchall()
+        interstcomments = []
+        for t in tags:
+            if t[4] == None:
+                cursor.execute(sql2,(t[2],t[3]))
+                l = cursor.fetchall()
+                interstcomments+=l
+            else:
+                cursor.execute(sql,(t[2],t[3],t[4]))
+                l = cursor.fetchall()
+                interstcomments+=l
+        dic = {'comments': interstcomments}
+        return responseMessage(dic, status=200)
 
 @socketio.on("connect")
 def reply():
