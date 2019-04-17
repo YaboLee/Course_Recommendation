@@ -57,7 +57,7 @@ def searchCourse():
         dic["coursenumber"] = coursenumber
         dic['coursesubject'] = coursesubject 
         print(dic)
-        return jsonify(dic)
+        return responseMessage(dic, status=200)
 
 # @api_bp.route('/loginOrNot',methods = ('GET','POST'))
 # def loginOrNot():
@@ -90,7 +90,7 @@ def addCourse():
         coursesubject = addcourse['courseSubject']
         coursenumber = addcourse['courseNumber']
         instructor = addcourse['courseInstructor']
-        username = g.username
+        username = addcourse["userName"]
         # coursesubject = 'KIN'#test
         # coursenumber = '249'#test
         # instructor = 'Wade Fagen'#test
@@ -99,7 +99,13 @@ def addCourse():
         cursor = db.cursor()
         cursor.execute('INSERT INTO USERCOURSES (username,coursenumber,coursetitle,instructor) VALUES("'+username+'",'+coursenumber+',"'+coursesubject+'","'+instructor+'");')
         db.commit()
-    return 'add successful'
+        ret = {
+            "courseSubject": coursesubject,
+            "courseNumber": coursenumber,
+            "courseInstructor": instructor,
+        }
+        return responseMessage(ret, status=200)
+
 @api_bp.route('/deleteCourse',methods=('GET','POST'))
 def deleteCourse():
     if request.method == 'POST':
@@ -107,7 +113,7 @@ def deleteCourse():
         coursesubject = deletecourse['courseSubject']
         coursenumber = str(deletecourse['courseNumber'])
         instructor = deletecourse['courseInstructor']
-        username = g.username
+        username = deletecourse["userName"]
         # coursesubject = 'KIN'#test
         # coursenumber = '249'#test
         # instructor = 'Wade Fagen'#test
@@ -116,7 +122,8 @@ def deleteCourse():
         cursor = db.cursor()
         cursor.execute('DELETE FROM USERCOURSES WHERE USERNAME = "'+username+'" AND COURSENUMBER = '+coursenumber+' AND COURSETITLE = "'+coursesubject+'" AND INSTRUCTOR = "'+instructor+'";')
         db.commit()
-    return 'delete successful'
+        return responseMessage(status=200)
+
 @api_bp.route('/thumbsUp',methods = ('GET','POST'))
 def thumbsUp():
     if request.method == 'POST':
@@ -129,7 +136,8 @@ def thumbsUp():
         cursor = db.cursor()
         cursor.execute('UPDATE Courses3 SET LIKES := LIKES+1 WHERE CourseNumber = '+coursenumber+' AND CourseSubject =  "'+coursesubject+'" AND Instructor = "'+instructor+'";')
         db.commit()
-    return 'LIKE successful'
+    return responseMessage(status=200)
+
 @api_bp.route('/comment',methods = ('GET','POST'))
 def comment():
     if request.method =='POST':
@@ -137,7 +145,7 @@ def comment():
         producer.send('test', request.data)
 
         course = json.loads(request.data)
-        username = g.username
+        username = course['userName']
         coursesubject = course['courseSubject']
         coursenumber = str(course['courseNumber'])
         instructor = course['courseInstructor']
@@ -147,7 +155,7 @@ def comment():
         print('INSERT INTO CourseComment (USERNAME,CourseSubject,CourseNumber,Instructor,CourseComment) VALUES("'+username+'",'+coursesubject+'",'+coursenumber+',"'+instructor+'","'+comment+'")')
         cursor.execute('INSERT INTO CourseComment (USERNAME,CourseSubject,CourseNumber,Instructor,CourseComment) VALUES("'+username+'","'+coursesubject+'",'+coursenumber+',"'+instructor+'","'+comment+'")')
         db.commit()
-    return "COMMENT successful!"
+    return responseMessage(status=200)
 
 @socketio.on("connect")
 def reply():

@@ -34,6 +34,7 @@ export default class courseDisplay extends Component {
           searchCourseName={this.state.searchCourseName}
           courseAdd={this.props.courseAdd}
           getUserCourse={this.props.getUserCourse}
+          userName={this.props.userName}
         />
       </ul>
     );
@@ -58,6 +59,7 @@ function CourseList(props) {
         courseLikes={course.LIKES}
         searchCourseName={searchCourseName}
         getUserCourse={props.getUserCourse}
+        userName={props.userName}
       />
     </li>
   ));
@@ -80,6 +82,7 @@ class CourseEntry extends Component {
       courseLikes: props.courseLikes,
       commentAppend: false,
       commentValue: "",
+      userName: props.userName,
     };
   }
 
@@ -92,8 +95,8 @@ class CourseEntry extends Component {
   handleThumbsUp(props) {
     var self = this;
     // console.log(props);
-    axios.post('/api/thumbsUp', {
-        // userName: self.userName,
+    axios.post('http://localhost:5000/api/thumbsUp', {
+        userName: self.state.userName,
         courseName: props.courseName,
         courseSubject: props.courseSubject,
         courseNumber: props.courseNumber,
@@ -126,8 +129,8 @@ class CourseEntry extends Component {
 
   postComment() {
     var self = this;
-    axios.post('/api/comment', {
-        // userName: self.userName,
+    axios.post('http://localhost:5000/api/comment', {
+        userName: self.state.userName,
         // courseName: self.state.courseName,
         courseSubject: self.state.courseSubject,
         courseNumber: self.state.courseNumber,

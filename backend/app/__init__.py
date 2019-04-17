@@ -9,7 +9,7 @@ def create_app(debug=True):
     app = Flask(__name__)
     app.debug = debug
     app.config['SECRET_KEY'] = 'gjr39dkjn344_!67#'
-    cors = CORS(app, resources={r"/*": {"origins": "*"}})
+    CORS(app)
 
     from .routes import authen
     from .api import api
