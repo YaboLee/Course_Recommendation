@@ -156,10 +156,11 @@ def comment():
         cursor.execute('INSERT INTO CourseComment (USERNAME,CourseSubject,CourseNumber,Instructor,CourseComment) VALUES("'+username+'","'+coursesubject+'",'+coursenumber+',"'+instructor+'","'+comment+'")')
         db.commit()
     return responseMessage(status=200)
-@api_bp.route('/showComment',methods = ('GET','POST'))
-def showComment():
+@api_bp.route('/showComments',methods = ('GET','POST'))
+def showComments():
     if request.method == 'GET':
         username = request.args.get('userName')
+        print(username)
         db = get_db()
         cursor = db.cursor()
         sql = 'SELECT * FROM CourseComment WHERE CourseSubject = %s AND CourseNumber = %s AND Instructor = %s'
