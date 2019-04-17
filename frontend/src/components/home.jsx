@@ -117,7 +117,8 @@ export default class Home extends Component {
               userName={this.state.userInfo.userName} />
           </div>
           <div className="col-md-3 my-col">
-            <Feed />
+            <Feed
+              userName={this.state.userInfo.userName} />
           </div>
         </div>
       </div>

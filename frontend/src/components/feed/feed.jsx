@@ -12,12 +12,6 @@ export default class Feed extends Component {
             userName: props.userName,
         }
         this.socket = io("http://localhost:5000");
-        // this.socket.connect("http://localhost:8000/socket.io/");
-        // subscribeServer(this.socket, (data) => {
-        //     this.setState({
-        //         feeds: data.feeds,
-        //     })
-        // })
 
         this.socket.emit("/", "hello");
 
@@ -30,12 +24,16 @@ export default class Feed extends Component {
         this.socket.on("connect", () => {
             console.log("...");
         })
-
-
-        console.log("test");
     }
 
+    componentWillReceiveProps(props) {
+        if (this.props !== props) {
+          this.setState(props);
+        }
+      }
+
     showComments = () => {
+        console.log(this.state);
         axios.get('http://localhost:5000/api/showComments', {
         params: {
             userName: this.state.userName,
