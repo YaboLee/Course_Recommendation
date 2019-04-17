@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import io from 'socket.io-client';
 import { Button } from "react-bootstrap";
 import axios from "axios";
+import { func } from "prop-types";
 
 export default class Feed extends Component {
     constructor(props) {
@@ -58,10 +59,21 @@ export default class Feed extends Component {
                     onClick={() => this.showComments()}>
                     Show Comments
                 </Button>
-            </div>
 
-            // this.state.feeds
+            </div>
         );
     }
 }
 
+function CommentsList(props) {
+    const comments = props.coments;
+    const listItems = comments.map((comment, index) => (
+        <li key={index}>
+            <div>
+                <p>{comment[1]}</p>
+                <p>{comment[2] + " " + comment[3] + " " + comment[4]}</p>
+                <p>{comment[5]}</p>
+            </div>
+        </li>
+    ));
+}
