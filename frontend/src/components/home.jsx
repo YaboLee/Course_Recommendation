@@ -19,23 +19,29 @@ export default class Home extends Component {
         userName: props.location.state.userName,
         logedin: props.location.state.logedin,
       },
-      userCourse: null,
+      userCourse: [],
     };
     this.getUserCourse = this.getUserCourse.bind(this);
+    this.handleCourseAdd = this.handleCourseAdd.bind(this);
+    this.handleCourseDelete = this.handleCourseDelete.bind(this);
   }
 
   handleCourseAdd(props) {
     var self = this;
-    axios.post('/api/addCourse', {
-        userName: self.userName,
+    console.log(self.state);
+    axios.post('http://localhost:5000/api/addCourse', {
+        userName: self.state.userInfo.userName,
         courseName: props.courseName,
         courseSubject: props.courseSubject,
         courseNumber: props.courseNumber,
         courseInstructor: props.courseInstructor
     })
         .then(function (response) {
-          console.log(response);
-            self.getUserCourse();
+          let userCourse = self.state.userCourse
+          userCourse.push(response.data.data);
+          self.setState({
+            "userCourse": userCourse,
+          })
         })
         .catch(function (error) {
             console.log(error);
@@ -44,8 +50,8 @@ export default class Home extends Component {
 
   handleCourseDelete(props) {
     var self = this;
-    axios.post('/api/deleteCourse', {
-        userName: self.userName,
+    axios.post('http://localhost:5000/api/deleteCourse', {
+        userName: self.state.userInfo.userName,
         courseName: props.courseName,
         courseSubject: props.courseSubject,
         courseNumber: props.courseNumber,
@@ -107,7 +113,8 @@ export default class Home extends Component {
           <div className="col-md-6 my-col">
             <Course 
               courseAdd={this.handleCourseAdd}
-              getUserCourse={this.getUserCourse} />
+              getUserCourse={this.getUserCourse}
+              userName={this.state.userInfo.userName} />
           </div>
           <div className="col-md-3 my-col">
             <Feed />

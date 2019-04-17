@@ -29,10 +29,10 @@ export default class Course extends Component {
             .then(function (response) {
                 // handle success
                 var courseInfo = Object();
-                courseInfo.courses = response.data.courseInfo;
-                courseInfo.courseTitle = response.data.title;
-                courseInfo.courseSubject = response.data.coursesubject;
-                courseInfo.courseNumber = response.data.coursenumber;
+                courseInfo.courses = response.data.data.courseInfo;
+                courseInfo.courseTitle = response.data.data.title;
+                courseInfo.courseSubject = response.data.data.coursesubject;
+                courseInfo.courseNumber = response.data.data.coursenumber;
                 self.setState({
                     courseInfo: courseInfo,
                 })
@@ -64,7 +64,8 @@ export default class Course extends Component {
                         courseInfo={this.state.courseInfo}
                         searchCourseName={this.state.searchCourseName}
                         courseAdd={this.props.courseAdd}
-                        getUserCourse={this.props.getUserCourse} />
+                        getUserCourse={this.props.getUserCourse}
+                        userName={this.props.userName} />
                 ) : ("") 
             }
             
