@@ -30,28 +30,23 @@ export default class LoginForm extends Component {
 
     handleSubmit() {
         var self = this;
-        axios.post('/auth/login', {
+        axios.post('http://localhost:5000/auth/login', {
             username: this.state.username,
             password: this.state.password,
           })
           .then(function (response) {
-            self.props.history.push("/");
-            // console.log(response);
-            axios.get("/api/userCourse")
-            .then(res => {
-              const temp = res.data;
-              console.log("data is ", temp);
-              this.setState({ userinfo: temp });
-            }).catch(function (error) {
-                console.log(error);
+            self.props.history.push({
+                pathname: "/",
+                state: {
+                    userName: response.data.data.userName,
+                    logedin: response.data.data.logedin
+                }
             });
+            console.log(response);
           })
           .catch(function (error) {
             console.log(error);
           });
-
-        console.log("userinfo is ", this.state.userinfo)
-          
     }
 
     componentDidMount() {

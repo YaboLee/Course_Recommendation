@@ -21,7 +21,7 @@ export default class Course extends Component {
 
     searchCourse() {
         var self = this;
-        axios.get('/api/searchCourse', {
+        axios.get('http://localhost:5000/api/searchCourse', {
             params: {
                 searchCourseName: self.state.searchCourseName,
             }

@@ -5,7 +5,7 @@ from flask import(
 )
 from kafka import KafkaProducer
 
-from ..utils import get_db
+from ..utils import get_db, responseMessage
 from . import api_bp
 from main import socketio
 
@@ -59,28 +59,29 @@ def searchCourse():
         print(dic)
         return jsonify(dic)
 
-@api_bp.route('/loginOrNot',methods = ('GET','POST'))
-def loginOrNot():
-    if request.method == 'GET':
-        login = True
-        username = g.username
-        if username == None:
-            login = False
-        dic = {'logedin':login,'userName':username}
-    return json.dumps(dic)
+# @api_bp.route('/loginOrNot',methods = ('GET','POST'))
+# def loginOrNot():
+#     if request.method == 'GET':
+#         if username == None:
+#             print("not log in")
+#             return responseMessage({"logedin": False}, status=301)
+#         print("logedin")
+#         dic = {'logedin': True, 'userName':username}
+#         return responseMessage(dic, status=200)
+
 @api_bp.route('/userCourse',methods=('GET','POST'))
 def userCourse():
     if request.method == 'POST':
         return 'jello'
     if request.method == 'GET':
-        username = g.username
-        print(username)
+        username = request.args.get("userName")
         db = get_db()
         cursor = db.cursor(dictionary=True)
         cursor.execute('SELECT CourseTitle as courseSubject, Coursenumber as courseNumber, Instructor as courseInstructor FROM USERCOURSES WHERE username= "'+username+'";')
         data = cursor.fetchall()
         dic = {'usercourse': data}
-    return jsonify(dic)
+        return responseMessage(dic, status=200)
+
 #{'coursesubject':'CS',coursenumber':241,'instructor':'Angrave'}
 @api_bp.route('/addCourse',methods=('GET','POST'))
 def addCourse():

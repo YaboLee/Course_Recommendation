@@ -16,8 +16,8 @@ export default class Home extends Component {
     super(props);
     this.state = {
       userInfo: {
-        userName: null,
-        logedin: false
+        userName: props.location.state.userName,
+        logedin: props.location.state.logedin,
       },
       userCourse: null,
     };
@@ -61,14 +61,14 @@ export default class Home extends Component {
 
   getUserCourse() {
     var self = this;
-    axios.get('/api/userCourse', {
+    axios.get('http://localhost:5000/api/userCourse', {
         params: {
-            userName: self.userName,
+            userName: self.state.userInfo.userName,
         }
     })
         .then(function (response) {
             self.setState({
-                userCourse: response.data.usercourse,
+                userCourse: response.data.data.usercourse,
             })
         })
         .catch(function (error) {
@@ -78,24 +78,11 @@ export default class Home extends Component {
 
   componentDidMount() {
     var self = this;
-    axios.get("/api/loginOrNot")
-      .then(function(response) {
-        if (response.data.logedin === false) {
-          self.props.history.push("/auth/login");
-        } else {
-          var data = response.data;
-          var userInfo = { userName: data.userName, logedin: data.logedin };
-          self.setState({
-            userInfo: userInfo
-          });
-        }
-      })
-      .catch(function(error) {
-        console.log(error);
-      })
-      .then(function() {
-        self.getUserCourse();
-      });
+    if (self.state.logedin === false) {
+      self.props.history.push("/auth/login");
+    } else{
+      self.getUserCourse();
+    }
   }
 
   render() {

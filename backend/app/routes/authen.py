@@ -1,13 +1,13 @@
 import functools
 import json
 from flask import(
-    Blueprint, flash, g, request, session, url_for, render_template, redirect
+    g, request, session, url_for, render_template, redirect
 )
 from werkzeug.security import check_password_hash, generate_password_hash
 
 from . import auth_bp
 
-from ..utils import get_db
+from ..utils import get_db, responseMessage
 
 @auth_bp.route('/register',methods = ('GET','POST'))
 def register():
@@ -36,7 +36,7 @@ def register():
                   return redirect(url_for('auth.login'))
         #   flash(error)
       return render_template('register.html')
-@auth_bp.route('/login',methods = ('GET','POST'))
+@auth_bp.route('/login',methods = ['POST'])
 def login():
     if request.method == 'POST':
         print(request.data)
@@ -55,11 +55,12 @@ def login():
         if error is None:
             session.clear()
             session['username'] = username
-            print('login successful!')
-            return redirect(url_for('hello'))
-            # return redirect(url_for('/'))
+            g.username = username
+            # print('login successful!')
+            return responseMessage({"userName":username, "logedin": True}, status=200)
         print(error)
-    return render_template('login.html')
+        return responseMessage(message=error, status=411)
+
 @auth_bp.before_app_request
 def load_logged_in_user():
     username = session.get('username')
