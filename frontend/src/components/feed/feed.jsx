@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import io from 'socket.io-client';
 import { Button } from "react-bootstrap";
+import axios from "axios";
 
 export default class Feed extends Component {
     constructor(props) {
@@ -41,7 +42,7 @@ export default class Feed extends Component {
     })
         .then(function (response) {
             console.log(response.data.data.comments);
-            self.setState({
+            this.setState({
                 feeds: response.data.data.comments,
             })
         })
