@@ -1,5 +1,8 @@
 import functools
 import json
+import nltk
+from nltk.sentiment.vader import SentimentIntensityAnalyzer
+import matplotlib.pyplot as plt
 from flask import(
     g, redirect, render_template, request, session, url_for,jsonify
 )
@@ -143,17 +146,20 @@ def comment():
     if request.method =='POST':
         # producer = KafkaProducer(bootstrap_servers='localhost:9092')
         # producer.send('test', request.data)
-
         course = json.loads(request.data)
         username = course['userName']
         coursesubject = course['courseSubject']
         coursenumber = str(course['courseNumber'])
         instructor = course['courseInstructor']
         comment = course['courseComment']
+        # nltk.download('vader_lexicon')
+        sid = SentimentIntensityAnalyzer()
+        ss = sid.polarity_scores(comment)
+        sentiment = str(int(ss['pos']-ss['neg']>=0))
         db = get_db()
         cursor = db.cursor()
         print('INSERT INTO CourseComment (USERNAME,CourseSubject,CourseNumber,Instructor,CourseComment) VALUES("'+username+'",'+coursesubject+'",'+coursenumber+',"'+instructor+'","'+comment+'")')
-        cursor.execute('INSERT INTO CourseComment (USERNAME,CourseSubject,CourseNumber,Instructor,CourseComment) VALUES("'+username+'","'+coursesubject+'",'+coursenumber+',"'+instructor+'","'+comment+'")')
+        cursor.execute('INSERT INTO CourseComment (USERNAME,CourseSubject,CourseNumber,Instructor,CourseComment,Sentiment) VALUES("'+username+'","'+coursesubject+'",'+coursenumber+',"'+instructor+'","'+comment+'",'+sentiment+')')
         db.commit()
     return responseMessage(status=200)
 @api_bp.route('/showComments',methods = ('GET','POST'))
@@ -165,16 +171,21 @@ def showComments():
         cursor = db.cursor()
         sql = 'SELECT * FROM CourseComment WHERE CourseSubject = %s AND CourseNumber = %s AND Instructor = %s'
         sql2 = 'SELECT * FROM CourseComment WHERE CourseSubject = %s AND CourseNumber = %s'
+        sql3 = 'SELECT * FROM CourseComment WHERE CourseSubject = %s'
         cursor.execute('SELECT * FROM Interests WHERE Username = "'+username+'";')
         tags = cursor.fetchall()
         interstcomments = []
         for t in tags:
-            if t[4] == None:
+            if t[4] == None and t[3]!=None:
                 cursor.execute(sql2,(t[2],t[3]))
                 l = cursor.fetchall()
                 interstcomments+=l
-            else:
+            elif t[4]!=None and t[3]!=None:
                 cursor.execute(sql,(t[2],t[3],t[4]))
+                l = cursor.fetchall()
+                interstcomments+=l
+            else:
+                cursor.execute(sql3,(t[2],))
                 l = cursor.fetchall()
                 interstcomments+=l
         dic = {'comments': interstcomments}

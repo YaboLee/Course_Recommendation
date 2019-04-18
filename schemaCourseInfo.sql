@@ -21,6 +21,7 @@ CREATE TABLE CourseComment(
     CourseNumber INTEGER,
     Instructor VARCHAR(255),
     CourseComment TEXT,
+    Sentiment INTEGER,
     PRIMARY KEY (id)
 );
 CREATE TABLE Interests(
