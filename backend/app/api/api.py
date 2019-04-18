@@ -190,7 +190,24 @@ def showComments():
                 interstcomments+=l
         dic = {'comments': interstcomments}
         return responseMessage(dic, status=200)
-    
+@api_bp.route('/addTag',methods = ('GET','POST'))
+def addTag():
+    if request.method == 'POST':
+        tag = json.loads(request.data) 
+        coursesubject = tag['courseSubject']
+        coursenumber = tag['courseNumber']
+        instructor = tag['courseInstructor'] 
+        username = tag['userName']
+        if coursenumber == '?':
+            coursenumber = None
+        if instructor == '?':
+            instructor = None
+        db = get_db()
+        cursor = db.cursor()
+        sql = 'INSERT INTO Interests (Username,CourseSubject,CourseNumber,Instructor)VALUES(%s,%s,%s,%s);'
+        cursor.execute(sql,(username,coursesubject,coursenumber,instructor))  
+        db.commit()
+    return responseMessage(status=200) 
 
 @socketio.on("connect")
 def reply():
