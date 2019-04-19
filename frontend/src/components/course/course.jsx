@@ -19,6 +19,24 @@ export default class Course extends Component {
         }
     }
 
+    checkAvailable() {
+        var self = this;
+        axios.get("http://localhost:5000/api/available", {
+            params: {
+                searchCourseName: self.state.searchCourseName,
+            }
+        })
+        .then(function (response) {
+            const availble = response.data.data.availble;
+            self.setState({
+                availble: availble,
+            })
+        })
+        .catch(function (error) {
+            console.log(error);
+        })
+    }
+
     searchCourse() {
         var self = this;
         axios.get('http://localhost:5000/api/searchCourse', {
@@ -34,12 +52,11 @@ export default class Course extends Component {
                 courseInfo.courseSubject = response.data.data.coursesubject;
                 courseInfo.courseNumber = response.data.data.coursenumber;
                 const stat = response.data.data.result;
-                const availble = response.data.data.availble;
                 self.setState({
                     courseInfo: courseInfo,
                     stat: stat,
-                    availble: availble,
                 })
+                self.checkAvailable();
                 // console.log(response.data.courseInfo);
             })
             .catch(function (error) {
