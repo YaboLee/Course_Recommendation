@@ -11,11 +11,10 @@ export default class Feed extends Component {
         super(props);
         this.showComments = this.showComments.bind(this);
         this.state = {
-            endpoint: "https://localhost:8000/socket.io/",
             feeds: [],
             userName: props.userName,
         }
-        this.socket = io("http://localhost:8000");
+        this.socket = io("http://localhost:8000/");
 
         this.socket.emit("/", "hello");
 
