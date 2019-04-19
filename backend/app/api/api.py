@@ -59,7 +59,26 @@ def searchCourse():
         dic["title"] = title[0]['CourseTitle']
         dic["coursenumber"] = coursenumber
         dic['coursesubject'] = coursesubject 
-        print(dic)
+        sql = 'SELECT Instructor, SUM(Aplus),SUM(A),SUM(Aminus),SUM(Bplus),SUM(B),SUM(Bminus),SUM(Cplus),SUM(C),SUM(Cminus),SUM(Dplus),SUM(D),SUM(Dminus),SUM(F),SUM(W) FROM Courses2 WHERE CourseSubject = %s AND CourseNumber = %s GROUP BY Instructor'
+        db = get_db()
+        cursor = db.cursor()
+        cursor.execute(sql,(coursesubject,coursenumber))
+        distributions = cursor.fetchall()
+        print(data)
+        result = []
+        grade = ['A+','A','A-','B+','B','B-','C+','C','C-','D+','D','D-','F','W']
+        for d in distributions:
+            dick = {}
+            dis = {}
+            for i in range(len(d)):
+                if i == 0:
+                    dick['name'] = d[i]
+                else:
+                    dis[grade[i-1]] = int(d[i])
+            dick['data'] = dis
+            result.append(dick)
+        print(result)
+        dic['result'] = result
         return responseMessage(dic, status=200)
 
 # @api_bp.route('/loginOrNot',methods = ('GET','POST'))
