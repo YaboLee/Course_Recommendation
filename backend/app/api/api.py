@@ -169,7 +169,7 @@ def showComments():
         print(username)
         db = get_db()
         cursor = db.cursor()
-        sql = 'SELECT * FROM CourseComment WHERE CourseSubject = %s AND CourseNumber = %s AND Instructor = %s'
+        sql = 'SELECT * FROM CourseComment WHERE CourseSubject = %s AND CourseNumber = %s AND Instructor = %s ORDER BY id DESC'
         sql2 = 'SELECT * FROM CourseComment WHERE CourseSubject = %s AND CourseNumber = %s'
         sql3 = 'SELECT * FROM CourseComment WHERE CourseSubject = %s'
         cursor.execute('SELECT * FROM Interests WHERE Username = "'+username+'";')
@@ -190,7 +190,7 @@ def showComments():
                 interstcomments+=l
         dic = {'comments': interstcomments}
         return responseMessage(dic, status=200)
-@api_bp.route('/addTag',methods = ('GET','POST'))
+@api_bp.route('/subscribe',methods = ('GET','POST'))
 def addTag():
     if request.method == 'POST':
         tag = json.loads(request.data) 
@@ -198,9 +198,10 @@ def addTag():
         coursenumber = tag['courseNumber']
         instructor = tag['courseInstructor'] 
         username = tag['userName']
-        if coursenumber == '?':
+        print(username)
+        if coursenumber == '':
             coursenumber = None
-        if instructor == '?':
+        if instructor == '':
             instructor = None
         db = get_db()
         cursor = db.cursor()
@@ -269,6 +270,32 @@ def searchCourseNumber():
                 l.append(i[0])
             dic = {'result':l}
             return responseMessage(dic, status=200)
+@api_bp.route('/getAllSubscriptions',methods = ('GET','POST'))
+def getAllSubscriptions():
+    if request.method == 'GET':
+        username = request.args.get('userName')
+        print(username)
+        db = get_db()
+        cursor = db.cursor()
+        sql = 'SELECT * FROM Interests WHERE Username = %s'
+        cursor.execute(sql,(username,))
+        subscriptions = cursor.fetchall()
+        dic = {'result':subscriptions}
+        return responseMessage(dic, status=200)
+@api_bp.route('/cancelSubscription',methods = ('GET','POST'))
+def cancelSubscription():
+    if request.method == 'POST':
+        data = json.loads(request.data)
+        username = data['userName'] 
+        coursesubject = data['courseSubject']
+        coursenumber = data['courseNumber']
+        instructor = data['courseInstructor']
+        sql = 'DELETE FROM Interests WHERE Username = %s AND CourseSubject = %s AND Instructor = %s AND CourseNumber = %s;'
+        db = get_db()
+        cursor = db.cursor()
+        cursor.execute(sql,(username,coursesubject,instructor, coursenumber))
+        db.commit()
+        return responseMessage(status=200)
 @socketio.on("connect")
 def reply():
     print("connect")
