@@ -208,7 +208,67 @@ def addTag():
         cursor.execute(sql,(username,coursesubject,coursenumber,instructor))  
         db.commit()
     return responseMessage(status=200) 
-
+@api_bp.route('/search/courseSubject',methods = ('GET','POST'))
+def searchCourseSubject():
+    if request.method == 'GET':
+        db = get_db()
+        cursor = db.cursor()
+        cursor.execute('SELECT DISTINCT CourseSubject from Courses3 ORDER BY CourseSubject ASC;')
+        coursesubjects = cursor.fetchall()
+        l = []
+        for i in coursesubjects:
+            l.append(i[0])
+        dic = {'result':l}
+        return responseMessage(dic, status=200)
+@api_bp.route('/select/courseSubject',methods = ('GET','POST'))
+def selectCourseSubject():
+    if request.method == 'GET':
+        coursesubject = request.args.get('courseSubject')
+        print(request.args)
+        if coursesubject == '':
+            dic = {'result':''}
+            return responseMessage(dic, status=200)
+        else:
+            db = get_db()
+            cursor = db.cursor()
+            sql =  'SELECT DISTINCT CourseNumber FROM Courses3 WHERE CourseSubject = %s'
+            cursor.execute(sql,(coursesubject,))
+            coursenumbers = cursor.fetchall()
+            l = []
+            for i in coursenumbers:
+                l.append(i[0])
+            dic = {'result':l}
+            return responseMessage(dic, status=200)
+@api_bp.route('/select/courseNumber',methods = ('GET','POST'))
+def searchCourseNumber():
+    if request.method == 'GET':
+        coursesubject = request.args.get('courseSubject')
+        coursenumber = request.args.get('courseNumber')
+        print(coursesubject,coursenumber)
+        print(request.args)
+        if coursesubject == '' and coursenumber == '':
+            db = get_db()
+            cursor = db.cursor()
+            sql = 'SELECT DISTINCT Instructor FROM Courses3 ORDER BY Instructor ASC;'
+            cursor.execute(sql)
+            instructors = cursor.fetchall()
+            print(instructors)
+            l = []
+            for i in instructors:
+                l.append(i[0])
+            dic = {'result':l}
+            return responseMessage(dic, status=200)
+        else:
+            db = get_db()
+            cursor = db.cursor()
+            sql =  'SELECT DISTINCT Instructor FROM Courses3 WHERE CourseSubject = %s AND CourseNumber = %s ORDER BY Instructor ASC'
+            cursor.execute(sql,(coursesubject,coursenumber))
+            instructors = cursor.fetchall()
+            l = []
+            for i in instructors:
+                l.append(i[0])
+            dic = {'result':l}
+            return responseMessage(dic, status=200)
 @socketio.on("connect")
 def reply():
     print("connect")
