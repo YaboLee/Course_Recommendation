@@ -121,7 +121,7 @@ class Navbar extends Component {
 
   getAllSubscriptions(props) {
     var self = this;
-    axios.get("http://localhost:5000/api/subscriptions", {
+    axios.get("http://localhost:5000/api/getAllSubscriptions", {
       params: {
         userName: self.state.userName,
       }
