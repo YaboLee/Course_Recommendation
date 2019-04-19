@@ -245,6 +245,7 @@ def searchCourseNumber():
         coursesubject = request.args.get('courseSubject')
         coursenumber = request.args.get('courseNumber')
         print(coursesubject,coursenumber)
+        print(request.args)
         if coursesubject == '' and coursenumber == '':
             db = get_db()
             cursor = db.cursor()
@@ -252,7 +253,10 @@ def searchCourseNumber():
             cursor.execute(sql)
             instructors = cursor.fetchall()
             print(instructors)
-            dic = {'result':instructors}
+            l = []
+            for i in instructors:
+                l.append(i[0])
+            dic = {'result':l}
             return responseMessage(dic, status=200)
         else:
             db = get_db()
@@ -260,7 +264,10 @@ def searchCourseNumber():
             sql =  'SELECT DISTINCT Instructor FROM Courses3 WHERE CourseSubject = %s AND CourseNumber = %s ORDER BY Instructor ASC'
             cursor.execute(sql,(coursesubject,coursenumber))
             instructors = cursor.fetchall()
-            dic = {'result':instructors}
+            l = []
+            for i in instructors:
+                l.append(i[0])
+            dic = {'result':l}
             return responseMessage(dic, status=200)
 @socketio.on("connect")
 def reply():
