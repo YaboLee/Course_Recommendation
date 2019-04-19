@@ -16,12 +16,20 @@ export default class Feed extends Component {
         }
         this.socket = io("http://127.0.0.1:5000");
 
-        this.socket.emit("reply", "hello");
+        this.socket.emit("my event", "hello");
 
         this.socket.on("reply", (data) => {
             // this.setState({
             //     feeds: data.feeds,
             // })
+            console.log(data);
+        });
+
+        this.socket.on("my response", (data) => {
+            // this.setState({
+            //     feeds: data.feeds,
+            // })
+            console.log("my response")
             console.log(data);
         });
 

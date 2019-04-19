@@ -15,10 +15,6 @@ import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {faThumbsUp} from "@fortawesome/free-solid-svg-icons"
-import PropTypes from 'prop-types';
-import classNames from 'classnames';
-import { createStyles, Theme, withStyles, WithStyles } from '@material-ui/core/styles';
-import MenuItem from '@material-ui/core/MenuItem';
 import TextField from '@material-ui/core/TextField';
 
 ReactChartkick.addAdapter(Chart);
@@ -40,9 +36,13 @@ export default class courseDisplay extends Component {
   }
 
   render() {
-    console.log(this.props.stat)
+    const available = this.props.available ? "available" : "inavailable";
+    const availableText = available ? "available" : "not available"
     return (
       <div>
+        <div className={available}>
+          {availableText}
+        </div>
         <LineChart data={this.props.stat} />
         <ul>
           <CourseList
