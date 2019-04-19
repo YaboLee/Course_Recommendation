@@ -1,6 +1,16 @@
 import React, { Component } from "react";
 import axios from "axios";
 
+import "../../styles/stat.css"
+import ReactChartkick, {
+LineChart,
+PieChart,
+ColumnChart
+} from "react-chartkick";
+import Chart from "chart.js";
+
+
+
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -10,6 +20,9 @@ import classNames from 'classnames';
 import { createStyles, Theme, withStyles, WithStyles } from '@material-ui/core/styles';
 import MenuItem from '@material-ui/core/MenuItem';
 import TextField from '@material-ui/core/TextField';
+
+ReactChartkick.addAdapter(Chart);
+
 
 export default class courseDisplay extends Component {
   constructor(props) {
@@ -27,16 +40,22 @@ export default class courseDisplay extends Component {
   }
 
   render() {
+    console.log(this.props.stat)
     return (
-      <ul>
-        <CourseList
-          courseInfo={this.state.courseInfo}
-          searchCourseName={this.state.searchCourseName}
-          courseAdd={this.props.courseAdd}
-          getUserCourse={this.props.getUserCourse}
-          userName={this.props.userName}
-        />
-      </ul>
+      <div>
+        <LineChart data={this.props.stat} />
+        <ul>
+          <CourseList
+            courseInfo={this.state.courseInfo}
+            searchCourseName={this.state.searchCourseName}
+            courseAdd={this.props.courseAdd}
+            getUserCourse={this.props.getUserCourse}
+            userName={this.props.userName}
+            history={this.props.history}
+          />
+        </ul>
+      </div>
+      
     );
   }
 }
@@ -60,6 +79,7 @@ function CourseList(props) {
         searchCourseName={searchCourseName}
         getUserCourse={props.getUserCourse}
         userName={props.userName}
+        history={props.history}
       />
     </li>
   ));
@@ -71,6 +91,7 @@ class CourseEntry extends Component {
     super(props);
     this.handleComment = this.handleComment.bind(this);
     this.handleCommentChange = this.handleCommentChange.bind(this);
+    this.handleStat = this.handleStat.bind(this);
     this.state = {
       courseInfo: props.courseInfo,
       courseTitle: props.courseTitle,
@@ -83,6 +104,7 @@ class CourseEntry extends Component {
       commentAppend: false,
       commentValue: "",
       userName: props.userName,
+      history: props.history,
     };
   }
 
@@ -153,7 +175,19 @@ class CourseEntry extends Component {
     this.setState({
         [name]: value
     });
-}
+  }
+
+  handleStat(props) {
+    console.log(props);
+    this.state.history.push({
+      pathname: "/stat",
+      state: {
+          courseSubject: props.courseSubject,
+          courseNumber: props.courseNumber,
+          courseInstructor: props.courseInstructor,
+      }
+    });
+  }
 
   render() {
     const courseInfo = this.state.courseInfo;
@@ -167,7 +201,15 @@ class CourseEntry extends Component {
       <div>
         <Card>
           <Card.Body>
-            <Card.Title>{courseSubject + courseNumber + " " + courseName}</Card.Title>
+            <Card.Title >
+              <div onClick={() => this.handleStat({
+              courseSubject: courseSubject,
+              courseNumber: courseNumber,
+              courseInstructor: courseInstructor
+            })}>
+               {courseSubject + courseNumber + " " + courseName}
+              </div>
+            </Card.Title>
             <Card.Subtitle className="mb-2 text-muted">
               {courseInstructor}
             </Card.Subtitle>

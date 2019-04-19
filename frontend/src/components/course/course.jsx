@@ -33,8 +33,11 @@ export default class Course extends Component {
                 courseInfo.courseTitle = response.data.data.title;
                 courseInfo.courseSubject = response.data.data.coursesubject;
                 courseInfo.courseNumber = response.data.data.coursenumber;
+                const stat = response.data.data.result;
+                console.log(stat);
                 self.setState({
                     courseInfo: courseInfo,
+                    stat: stat,
                 })
                 // console.log(response.data.courseInfo);
             })
@@ -65,7 +68,9 @@ export default class Course extends Component {
                         searchCourseName={this.state.searchCourseName}
                         courseAdd={this.props.courseAdd}
                         getUserCourse={this.props.getUserCourse}
-                        userName={this.props.userName} />
+                        userName={this.props.userName}
+                        history={this.props.history}
+                        stat={this.state.stat} />
                 ) : ("") 
             }
             

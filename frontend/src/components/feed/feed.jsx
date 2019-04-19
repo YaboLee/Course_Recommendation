@@ -14,18 +14,20 @@ export default class Feed extends Component {
             feeds: [],
             userName: props.userName,
         }
-        this.socket = io("http://localhost:8000/");
+        this.socket = io("http://localhost:5000");
 
-        this.socket.emit("/", "hello");
+        this.socket.emit("/reply", "hello");
 
         this.socket.on("/reply", (data) => {
-            this.setState({
-                feeds: data.feeds,
-            })
+            // this.setState({
+            //     feeds: data.feeds,
+            // })
+            console.log(data);
         });
 
-        this.socket.on("connect", () => {
+        this.socket.on("connect", (data) => {
             console.log("...");
+            console.log(data);
         })
     }
 

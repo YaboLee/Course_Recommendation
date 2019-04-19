@@ -1,0 +1,16 @@
+.chart {
+    width: 30%;
+    /* border-style: groove; */
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 100px;
+  }
+  
+  .title {
+    width: 30%;
+    color: purple;
+    margin-bottom: 50px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+  }

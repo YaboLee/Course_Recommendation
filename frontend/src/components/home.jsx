@@ -115,7 +115,8 @@ export default class Home extends Component {
             <Course 
               courseAdd={this.handleCourseAdd}
               getUserCourse={this.getUserCourse}
-              userName={this.state.userInfo.userName} />
+              userName={this.state.userInfo.userName}
+              history={this.props.history} />
           </div>
           <div className="col-md-3 my-col">
             <Feed
