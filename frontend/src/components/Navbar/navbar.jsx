@@ -27,6 +27,9 @@ class Navbar extends Component {
   handleOnClick(props) {
     var self = this;
     console.log(props);
+    if (props.menuName === "courseInstructor") {
+      return;
+    }
     axios.get('http://localhost:5000/api/select/' + props.menuName, {
     params: {
         userName: self.state.userName,
@@ -97,6 +100,7 @@ class Navbar extends Component {
   
   handleSubscribe(props) {
     var self = this;
+    console.log(this.state)
     axios.post('http://localhost:5000/api/subscribe', {
         userName: self.state.userName,
         courseSubject: self.state.selectedCourseSubject,
@@ -133,7 +137,8 @@ class Navbar extends Component {
               handleOnSelect={this.handleOnSelect}
               selectedCourseSubject={this.state.selectedCourseSubject}
               selectedCourseNumber={this.state.selectedCourseNumber} />
-          <Button>
+          <Button
+            onClick={this.handleSubscribe}>
             Subscribe
           </Button> 
       </div>
