@@ -107,7 +107,7 @@ class CourseEntry extends Component {
             // self.getUserCourse();
             var likes = self.state.courseLikes;
             self.setState({
-            courseLikes: likes+1
+              courseLikes: likes+1
           })
           
         })

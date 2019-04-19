@@ -8,7 +8,7 @@ import Plan from "./coursePlan/plan"
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../styles/home.css"
-import Navbar2 from "../components/Navbar/navbar.jsx";
+import Navbar from "../components/Navbar/navbar.jsx";
 import Feed from "./feed/feed"
 
 export default class Home extends Component {
@@ -99,7 +99,8 @@ export default class Home extends Component {
             userInfo={this.state.userInfo}
             className="info"
           />
-          <Navbar2 />
+          <Navbar
+            userName={this.state.userInfo.userName} />
         </div>
         <div className="row my-row">
           <div className="col-md-3 my-col">

@@ -4,6 +4,8 @@ import { Button } from "react-bootstrap";
 import axios from "axios";
 import { func } from "prop-types";
 
+import "../../styles/feed.css"
+
 export default class Feed extends Component {
     constructor(props) {
         super(props);
@@ -13,7 +15,7 @@ export default class Feed extends Component {
             feeds: [],
             userName: props.userName,
         }
-        this.socket = io("http://localhost:5000");
+        this.socket = io("http://localhost:8000");
 
         this.socket.emit("/", "hello");
 
@@ -74,14 +76,23 @@ export default class Feed extends Component {
 
 function CommentsList(props) {
     const comments = props.comments;
-    const listItems = comments.map((comment, index) => (
-        <li key={index}>
-            <div>
-                <p>{comment[1]}</p>
-                <p>{comment[2] + " " + comment[3] + " " + comment[4]}</p>
-                <p>{comment[5]}</p>
-            </div>
-        </li>
-    ));
+    const listItems = comments.map((comment, index) => {
+        const userName = comment[1];
+        const courseSubject = comment[2];
+        const courseNumber = comment[3];
+        const instructor = comment[4];
+        const commentValue = comment[5];
+        const sentiment = comment[6];
+        const commentClass = sentiment === 1 ? "good" : "bad";
+        return (
+            <li key={index}>
+                <div className={commentClass}>
+                    <p>{userName}</p>
+                    <p>{courseSubject + " " + courseNumber + " " + instructor}</p>
+                    <p>{commentValue}</p>
+                </div>
+            </li>
+        );
+    });
     return listItems;
 }
