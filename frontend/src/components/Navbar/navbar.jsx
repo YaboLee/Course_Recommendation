@@ -14,7 +14,7 @@ class Navbar extends Component {
       selectedCourseSubject: "",
       selectedCourseNumber: "",
       selectedCourseInstructor: "",
-      userName: "",
+      userName: props.userName,
     }
     this.handleOnClick = this.handleOnClick.bind(this);
     this.handleOnSelect = this.handleOnSelect.bind(this);
