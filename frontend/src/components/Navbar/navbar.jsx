@@ -26,6 +26,7 @@ class Navbar extends Component {
   
   handleOnClick(props) {
     var self = this;
+    console.log(props);
     axios.get('http://localhost:5000/api/select/' + props.menuName, {
     params: {
         userName: self.state.userName,
@@ -35,11 +36,18 @@ class Navbar extends Component {
     }
     })
     .then(function (response) {
-        console.log(response.data.data);
-        const menuName = props.menuName;
-        self.setState({
-          [menuName]: response.data.data.result,
-        })
+      const menuName = props.menuName;
+      let key = "";
+      if (menuName === "courseSubject") {
+        key = "courseNumber";
+      } else if (menuName === "courseNumber") {
+        key = "courseInstructor"
+      } else if (menuName === "courseInstructor") {
+        return;
+      }
+      self.setState({
+        [menuName]: response.data.data.result,
+      })
     })
     .catch(function (error) {
         console.log(error);
