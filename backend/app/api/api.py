@@ -336,6 +336,23 @@ def getDistribution():
         print(l)
         dic = {'result':l}
         return responseMessage(dic, status=200)
+@api_bp.route('/getCommentDistribution',methods = ('GET','POST'))
+def getCommentDistribution():
+    if request.method == 'GET':
+        coursenumber = request.args.get('courseNumber')
+        coursesubject = request.args.get('courseSubject')
+        instructor = request.args.get('courseInstructor')
+        sql = 'SELECT COUNT(*) FROM CourseComment WHERE Sentiment = 1 AND CourseSubject = %s AND CourseNumber = %s AND Instructor = %s'
+        sql2 = 'SELECT COUNT(*) FROM CourseComment WHERE Sentiment = 0 AND CourseSubject = %s AND CourseNumber = %s AND Instructor = %s'
+        db = get_db()
+        cursor = db.cursor()
+        cursor.execute(sql,(coursesubject,coursenumber,instructor))
+        postive = cursor.fetchone()
+        cursor.execute(sql2,(coursesubject,coursenumber,instructor))
+        negative = cursor.fetchone()
+        l = [['postive',postive[0]],['negative',negative[0]]]
+        dic = {'result':l}
+        return responseMessage(dic, status=200)
 @socketio.on("connect")
 def reply():
     print("connect")
