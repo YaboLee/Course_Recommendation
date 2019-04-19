@@ -14,11 +14,11 @@ export default class Feed extends Component {
             feeds: [],
             userName: props.userName,
         }
-        this.socket = io("http://localhost:5000");
+        this.socket = io("http://127.0.0.1:5000");
 
-        this.socket.emit("/reply", "hello");
+        this.socket.emit("reply", "hello");
 
-        this.socket.on("/reply", (data) => {
+        this.socket.on("reply", (data) => {
             // this.setState({
             //     feeds: data.feeds,
             // })
@@ -26,6 +26,7 @@ export default class Feed extends Component {
         });
 
         this.socket.on("connect", (data) => {
+            this.socket.emit("reply", "hi,,,,");
             console.log("...");
             console.log(data);
         })

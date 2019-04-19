@@ -22,6 +22,7 @@ class Stat extends Component {
         }
 
         this.getSectionStat();
+        this.getCommentsStat();
     }
 
     getSectionStat() {
@@ -36,6 +37,25 @@ class Stat extends Component {
         .then(function (response) {
             self.setState({
                 stat: response.data.data.result,
+            })
+        })
+        .catch(function (error) {
+            console.log(error);
+        })
+    }
+
+    getCommentsStat() {
+        var self = this;
+        axios.get('http://localhost:5000/api/getCommentDistribution', {
+            params: {
+                courseSubject: self.state.courseSubject,
+                courseNumber: self.state.courseNumber,
+                courseInstructor: self.state.courseInstructor
+            }
+        })
+        .then(function (response) {
+            self.setState({
+                commentStat: response.data.data.result,
             })
         })
         .catch(function (error) {
@@ -60,8 +80,13 @@ class Stat extends Component {
                 data={this.state.stat}
                 
             />
-            
-
+            </div>
+            <h4 className="title">Comment Distribution</h4>
+            <div className="chart">
+                <ColumnChart
+                    download={true}
+                    data={this.state.commentStat}
+                />
             </div>
         </div>
         );
