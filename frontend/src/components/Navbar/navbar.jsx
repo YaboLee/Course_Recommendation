@@ -46,7 +46,7 @@ class Navbar extends Component {
         return;
       }
       self.setState({
-        [menuName]: response.data.data.result,
+        [key]: response.data.data.result,
       })
     })
     .catch(function (error) {
@@ -124,12 +124,15 @@ class Navbar extends Component {
               menuName="courseNumber"
               entries={this.state.courseNumber}
               handleOnClick={this.handleOnClick}
-              handleOnSelect={this.handleOnSelect} />
+              handleOnSelect={this.handleOnSelect}
+              selectedCourseSubject={this.state.selectedCourseSubject} />
           <DropdownCustom
               menuName="courseInstructor"
               entries={this.state.courseInstructor}
               handleOnClick={this.handleOnClick}
-              handleOnSelect={this.handleOnSelect} />
+              handleOnSelect={this.handleOnSelect}
+              selectedCourseSubject={this.state.selectedCourseSubject}
+              selectedCourseNumber={this.state.selectedCourseNumber} />
           <Button>
             Subscribe
           </Button> 
