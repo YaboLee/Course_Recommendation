@@ -313,7 +313,7 @@ def getDistribution():
         l = []
         for i in range(len(data)):
             if i >0:
-                l.append([grade[i-1],data[i]])
+                l.append([grade[i-1],int(data[i])])
         print(l)
         dic = {'result':l}
         return responseMessage(dic, status=200)
