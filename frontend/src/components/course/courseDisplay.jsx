@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import axios from "axios";
 
 import "../../styles/stat.css"
+import "../../styles/course.css"
 import ReactChartkick, {
 LineChart,
 PieChart,
@@ -36,8 +37,8 @@ export default class courseDisplay extends Component {
   }
 
   render() {
-    const available = this.props.available ? "available" : "inavailable";
-    const availableText = available ? "available" : "not available"
+    const available = this.props.available === true ? "available" : "inavailable";
+    const availableText = available === true ? "available" : "not available"
     return (
       <div>
         <div className={available}>
