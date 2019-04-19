@@ -296,6 +296,27 @@ def cancelSubscription():
         cursor.execute(sql,(username,coursesubject,instructor, coursenumber))
         db.commit()
         return responseMessage(status=200)
+@api_bp.route('/getDistribution',methods = ('GET','POST'))
+def getDistribution():
+    if request.method == 'GET':
+        coursenumber = request.args.get('courseNumber')
+        coursesubject = request.args.get('courseSubject')
+        instructor = request.args.get('courseInstructor')
+        print(coursenumber,coursesubject,instructor)
+        sql = 'SELECT * FROM (SELECT Instructor, SUM(Aplus),SUM(A),SUM(Aminus),SUM(Bplus),SUM(B),SUM(Bminus),SUM(Cplus),SUM(C),SUM(Cminus),SUM(Dplus),SUM(D),SUM(Dminus),SUM(F),SUM(W) FROM Courses2 WHERE CourseSubject = %s AND CourseNumber = %s GROUP BY Instructor) as T WHERE T.Instructor = %s'
+        db = get_db()
+        cursor = db.cursor()
+        cursor.execute(sql,(coursesubject,coursenumber,instructor))
+        grade = ['A+','A','A-','B+','B','B-','C+','C','C-','D+','D','D-','F','W']
+        data = cursor.fetchall()[0]
+        print(data)
+        l = []
+        for i in range(len(data)):
+            if i >0:
+                l.append([grade[i-1],data[i]])
+        print(l)
+        dic = {'result':l}
+        return responseMessage(dic, status=200)
 @socketio.on("connect")
 def reply():
     print("connect")
